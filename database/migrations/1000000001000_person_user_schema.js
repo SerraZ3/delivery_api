@@ -18,7 +18,7 @@ class PersonUserSchema extends Schema {
   down() {
     this.table("people", (table) => {
       // reverse alternations
-      table.dropForeign("image_user_idid");
+      table.dropForeign("user_id");
     });
   }
 }
