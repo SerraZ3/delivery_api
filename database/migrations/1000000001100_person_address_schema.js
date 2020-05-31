@@ -10,7 +10,7 @@ class PersonAddressSchema extends Schema {
       table
         .foreign("address_id")
         .references("id")
-        .inTable("address")
+        .inTable("addresses")
         .onDelete("cascade");
     });
   }
