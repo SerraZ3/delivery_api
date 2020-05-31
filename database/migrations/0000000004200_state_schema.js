@@ -3,9 +3,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use("Schema");
 
-class CitySchema extends Schema {
+class StateSchema extends Schema {
   up() {
-    this.create("cities", (table) => {
+    this.create("states", (table) => {
       table.increments();
       table.string("name");
       table.timestamps();
@@ -13,8 +13,8 @@ class CitySchema extends Schema {
   }
 
   down() {
-    this.drop("cities");
+    this.drop("states");
   }
 }
 
-module.exports = CitySchema;
+module.exports = StateSchema;
