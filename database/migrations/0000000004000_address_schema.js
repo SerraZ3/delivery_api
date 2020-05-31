@@ -11,6 +11,7 @@ class AddressSchema extends Schema {
       table.string("neightborhood", 200);
       table.string("zip_code", 100);
       table.string("number", 100);
+      table.integer("city_id").unsigned();
       table.timestamps();
     });
   }
