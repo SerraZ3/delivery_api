@@ -8,6 +8,7 @@ class CitySchema extends Schema {
     this.create("cities", (table) => {
       table.increments();
       table.string("name");
+      table.integer("state_id").unsigned();
       table.timestamps();
     });
   }
