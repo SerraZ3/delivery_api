@@ -10,6 +10,7 @@ class PersonSchema extends Schema {
       table.string("name");
       table.decimal("cpf", 11, 0);
       table.timestamp("date_birth");
+      table.integer("user_id").unsigned();
       table.timestamps();
     });
   }
