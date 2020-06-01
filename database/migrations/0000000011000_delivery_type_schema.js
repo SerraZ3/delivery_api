@@ -8,7 +8,7 @@ class DeliveryTypeSchema extends Schema {
     this.create("delivery_types", (table) => {
       table.increments();
       table.string("name");
-      table.decimal("price", 3, 2);
+      table.decimal("price", 12, 2);
       table.timestamps();
     });
   }
