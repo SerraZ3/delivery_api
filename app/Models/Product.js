@@ -10,8 +10,11 @@ class Product extends Model {
   productCategories() {
     return this.belongsToMany("App/Models/ProductCategory");
   }
-  Images() {
+  images() {
     return this.belongsToMany("App/Models/Image");
+  }
+  loyaltyCards() {
+    return this.belongsToMany("App/Models/LoyaltyCard");
   }
 }
 

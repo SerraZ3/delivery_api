@@ -10,6 +10,9 @@ class LoyaltyCard extends Model {
   productCategories() {
     return this.belongsToMany("App/Models/ProductCategory");
   }
+  products() {
+    return this.belongsToMany("App/Models/Product");
+  }
 }
 
 module.exports = LoyaltyCard;
