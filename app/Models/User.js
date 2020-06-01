@@ -51,6 +51,10 @@ class User extends Model {
   loyaltyCardUser() {
     return this.hasOne("App/Models/LoyaltyCardUser");
   }
+
+  coupons() {
+    return this.belongsToMany("App/Models/Coupon");
+  }
 }
 
 module.exports = User;
