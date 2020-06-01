@@ -7,7 +7,6 @@ class OrderSchema extends Schema {
   up() {
     this.create("orders", (table) => {
       table.increments();
-      table.integer("user_id").unsigned();
       table.integer("deliveryman_id").unsigned();
       table.integer("address_id").unsigned();
       table.integer("delivery_type_id").unsigned();
