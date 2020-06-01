@@ -8,7 +8,6 @@ class OrderProductSchema extends Schema {
     this.create("order_products", (table) => {
       table.increments();
       table.integer("quantity").unsigned();
-      table.integer("order_id").unsigned();
       table.timestamps();
     });
   }
