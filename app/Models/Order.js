@@ -7,6 +7,9 @@ class Order extends Model {
   orderStatus() {
     return this.belongsTo("App/Models/OrderStatus");
   }
+  user() {
+    return this.belongsTo("App/Models/user");
+  }
 }
 
 module.exports = Order;
