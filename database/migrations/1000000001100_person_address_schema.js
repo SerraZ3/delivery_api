@@ -8,7 +8,8 @@ class PersonAddressSchema extends Schema {
     this.table("people", (table) => {
       // alter table
       table
-        .foreign("address_id")
+        .integer("address_id")
+        .unsigned()
         .references("id")
         .inTable("addresses")
         .onDelete("cascade");
