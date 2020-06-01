@@ -8,7 +8,10 @@ class Order extends Model {
     return this.belongsTo("App/Models/OrderStatus");
   }
   user() {
-    return this.belongsTo("App/Models/user");
+    return this.belongsTo("App/Models/User");
+  }
+  person() {
+    return this.belongsTo("App/Models/Person");
   }
 }
 
