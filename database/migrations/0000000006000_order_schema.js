@@ -8,6 +8,7 @@ class OrderSchema extends Schema {
     this.create("orders", (table) => {
       table.increments();
       table.integer("order_status_id").unsigned();
+      table.integer("user_id").unsigned();
       table.timestamps();
     });
   }
