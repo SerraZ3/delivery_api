@@ -8,7 +8,8 @@ class CityStateSchema extends Schema {
     this.table("cities", (table) => {
       // alter table
       table
-        .foreign("state_id")
+        .integer("state_id")
+        .unsigned()
         .references("id")
         .inTable("states")
         .onDelete("cascade");
