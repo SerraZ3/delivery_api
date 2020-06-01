@@ -19,6 +19,9 @@ class Order extends Model {
   deliveryType() {
     return this.belongsTo("App/Models/DeliveryType");
   }
+  orderProducts() {
+    return this.belongsTo("App/Models/OrderProduct");
+  }
 }
 
 module.exports = Order;
