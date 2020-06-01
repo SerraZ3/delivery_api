@@ -11,6 +11,7 @@ class OrderSchema extends Schema {
       table.integer("user_id").unsigned();
       table.integer("deliveryman_id").unsigned();
       table.integer("address_id").unsigned();
+      table.integer("delivery_type_id").unsigned();
       table.timestamps();
     });
   }
