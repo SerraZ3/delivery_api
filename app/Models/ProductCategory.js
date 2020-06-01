@@ -13,6 +13,9 @@ class ProductCategory extends Model {
   loyaltyCards() {
     return this.belongsToMany("App/Models/LoyaltyCard");
   }
+  coupons() {
+    return this.belongsToMany("App/Models/Coupon");
+  }
 }
 
 module.exports = ProductCategory;

@@ -13,6 +13,9 @@ class Coupon extends Model {
   products() {
     return this.belongsToMany("App/Models/Product");
   }
+  productCategories() {
+    return this.belongsToMany("App/Models/ProductCategory");
+  }
 }
 
 module.exports = Coupon;
