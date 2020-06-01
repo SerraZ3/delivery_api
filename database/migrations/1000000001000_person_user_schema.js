@@ -8,7 +8,8 @@ class PersonUserSchema extends Schema {
     this.table("people", (table) => {
       // alter table
       table
-        .foreign("user_id")
+        .integer("user_id")
+        .unsigned()
         .references("id")
         .inTable("users")
         .onDelete("cascade");
