@@ -11,7 +11,7 @@ class LoyaltyCardUser extends Model {
     return this.belongsTo("App/Models/User");
   }
   loyaltyCard() {
-    return this.belongsTo("App/Models/LoyaltyCard");
+    return this.belongsToMany("App/Models/LoyaltyCard");
   }
 }
 

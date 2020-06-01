@@ -23,7 +23,7 @@ class Order extends Model {
     return this.belongsTo("App/Models/OrderProduct");
   }
   loyaltyCardUsers() {
-    return this.belongsTo("App/Models/LoyaltyCardUser");
+    return this.belongsToMany("App/Models/LoyaltyCardUser");
   }
 }
 
