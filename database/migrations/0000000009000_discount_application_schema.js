@@ -8,7 +8,7 @@ class DiscountApplicationSchema extends Schema {
     this.create("discount_applications", (table) => {
       table.increments();
       table.string("name");
-      table.string("slug", 5);
+      table.string("slug");
       table.timestamps();
     });
   }

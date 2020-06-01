@@ -8,7 +8,7 @@ class OrderStatusSchema extends Schema {
     this.create("order_statuses", (table) => {
       table.increments();
       table.string("name");
-      table.string("slug", 5);
+      table.string("slug");
       table.timestamps();
     });
   }
