@@ -5,7 +5,10 @@ const Model = use("Model");
 
 class ProductCategory extends Model {
   products() {
-    return this.belongsToMany("App/Models/Products");
+    return this.belongsToMany("App/Models/Product");
+  }
+  productCategories() {
+    return this.belongsToMany("App/Models/ProductCategory");
   }
 }
 
