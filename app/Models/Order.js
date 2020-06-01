@@ -22,6 +22,9 @@ class Order extends Model {
   orderProducts() {
     return this.belongsTo("App/Models/OrderProduct");
   }
+  loyaltyCardUsers() {
+    return this.belongsTo("App/Models/LoyaltyCardUser");
+  }
 }
 
 module.exports = Order;
