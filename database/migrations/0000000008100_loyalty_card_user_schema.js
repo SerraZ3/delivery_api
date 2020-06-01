@@ -3,9 +3,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use("Schema");
 
-class LoyaltCardUserSchema extends Schema {
+class LoyaltyCardUserSchema extends Schema {
   up() {
-    this.create("loyalt_card_users", (table) => {
+    this.create("loyalty_card_users", (table) => {
       table.increments();
       table.decimal("counter", 3, 0);
       table.timestamps();
@@ -13,8 +13,8 @@ class LoyaltCardUserSchema extends Schema {
   }
 
   down() {
-    this.drop("loyalt_card_users");
+    this.drop("loyalty_card_users");
   }
 }
 
-module.exports = LoyaltCardUserSchema;
+module.exports = LoyaltyCardUserSchema;

@@ -3,14 +3,14 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use("Schema");
 
-class LoyaltCardProductCategorySchema extends Schema {
+class LoyaltyCardProductCategorySchema extends Schema {
   up() {
-    this.create("loyalt_card_product_categories", (table) => {
+    this.create("loyalty_card_product_categories", (table) => {
       table
-        .integer("loyalt_card_id")
+        .integer("loyalty_card_id")
         .unsigned()
         .references("id")
-        .inTable("loyalt_cards")
+        .inTable("loyalty_cards")
         .onDelete("CASCADE");
       table
         .integer("product_category_id")
@@ -23,8 +23,8 @@ class LoyaltCardProductCategorySchema extends Schema {
   }
 
   down() {
-    this.drop("loyalt_card_product_categories");
+    this.drop("loyalty_card_product_categories");
   }
 }
 
-module.exports = LoyaltCardProductCategorySchema;
+module.exports = LoyaltyCardProductCategorySchema;
