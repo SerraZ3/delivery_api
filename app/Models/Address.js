@@ -8,7 +8,7 @@ class Address extends Model {
     return this.HasOne("App/Models/Person");
   }
   city() {
-    return this.belongsTo("App/Models/city");
+    return this.belongsTo("App/Models/City");
   }
 }
 
