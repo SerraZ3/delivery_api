@@ -9,6 +9,7 @@ class OrderSchema extends Schema {
       table.increments();
       table.integer("order_status_id").unsigned();
       table.integer("user_id").unsigned();
+      table.integer("deliveryman_id").unsigned();
       table.timestamps();
     });
   }
