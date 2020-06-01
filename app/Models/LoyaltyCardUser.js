@@ -10,6 +10,9 @@ class LoyaltyCardUser extends Model {
   user() {
     return this.belongsTo("App/Models/User");
   }
+  loyaltyCard() {
+    return this.belongsTo("App/Models/LoyaltyCard");
+  }
 }
 
 module.exports = LoyaltyCardUser;
