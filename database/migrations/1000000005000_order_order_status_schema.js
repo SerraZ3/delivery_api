@@ -8,7 +8,8 @@ class OrderOrderStatusSchema extends Schema {
     this.table("orders", (table) => {
       // alter table
       table
-        .foreign("order_status_id")
+        .integer("order_status_id")
+        .unsigned()
         .references("id")
         .inTable("order_statuses")
         .onDelete("cascade");
