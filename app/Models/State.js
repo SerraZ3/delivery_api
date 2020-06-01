@@ -7,6 +7,9 @@ class State extends Model {
   cities() {
     return this.hasMany("App/Models/City");
   }
+  country() {
+    return this.belongsTo("App/Models/Country");
+  }
 }
 
 module.exports = State;
