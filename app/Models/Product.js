@@ -10,6 +10,9 @@ class Product extends Model {
   productCategories() {
     return this.belongsToMany("App/Models/ProductCategory");
   }
+  Images() {
+    return this.belongsToMany("App/Models/Image");
+  }
 }
 
 module.exports = Product;
