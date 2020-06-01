@@ -10,6 +10,9 @@ class Address extends Model {
   city() {
     return this.belongsTo("App/Models/City");
   }
+  orders() {
+    return this.hasMany("App/Models/Order");
+  }
 }
 
 module.exports = Address;
