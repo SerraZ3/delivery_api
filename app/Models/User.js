@@ -47,6 +47,10 @@ class User extends Model {
   orders() {
     return this.hasMany("App/Models/Order");
   }
+
+  loyaltyCardUser() {
+    return this.hasOne("App/Models/LoyaltyCardUser");
+  }
 }
 
 module.exports = User;

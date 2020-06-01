@@ -7,6 +7,9 @@ class LoyaltyCardUser extends Model {
   orders() {
     return this.belongsToMany("App/Models/Order");
   }
+  user() {
+    return this.belongsTo("App/Models/User");
+  }
 }
 
 module.exports = LoyaltyCardUser;
