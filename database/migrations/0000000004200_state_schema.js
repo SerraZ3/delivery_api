@@ -8,7 +8,6 @@ class StateSchema extends Schema {
     this.create("states", (table) => {
       table.increments();
       table.string("name");
-      table.integer("country_id").unsigned();
       table.timestamps();
     });
   }
