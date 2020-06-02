@@ -23,7 +23,9 @@ class Order extends Model {
     return this.belongsTo("App/Models/OrderProduct");
   }
   loyaltyCardUsers() {
-    return this.belongsToMany("App/Models/LoyaltyCardUser");
+    return this.belongsToMany("App/Models/LoyaltyCardUser").pivotModel(
+      "App/Models/LoyaltyCardUserOrder"
+    );
   }
   coupons() {
     return this.belongsToMany("App/Models/Coupon");

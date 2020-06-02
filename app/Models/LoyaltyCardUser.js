@@ -5,7 +5,9 @@ const Model = use("Model");
 
 class LoyaltyCardUser extends Model {
   orders() {
-    return this.belongsToMany("App/Models/Order");
+    return this.belongsToMany("App/Models/Order").pivotModel(
+      "App/Models/LoyaltyCardUserOrder"
+    );
   }
   user() {
     return this.belongsTo("App/Models/User");
