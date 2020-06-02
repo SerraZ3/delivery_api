@@ -11,7 +11,9 @@ class LoyaltyCard extends Model {
     return this.belongsToMany("App/Models/ProductCategory");
   }
   products() {
-    return this.belongsToMany("App/Models/Product");
+    return this.belongsToMany("App/Models/Product").pivotModel(
+      "App/Models/LoyaltyCardProduct"
+    );
   }
   discountApplication() {
     return this.belongsTo("App/Models/DiscountApplication");
