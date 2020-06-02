@@ -101,3 +101,35 @@ Factory.blueprint("App/Models/LoyaltyCardUser", async (faker, i, data) => {
     loyalty_card_id: data.loyalty_card_id ? data.loyalty_card_id : i + 1
   };
 });
+
+// Factory para Pedido
+Factory.blueprint("App/Models/Order", async (faker, i, data) => {
+  return {
+    order_status_id: data.order_status_id
+      ? data.order_status_id
+      : faker.integer({ min: 1, max: 5 }),
+    user_id: data.user_id ? data.user_id : faker.integer({ min: 1, max: 10 }),
+    deliveryman_id: data.deliveryman_id
+      ? data.deliveryman_id
+      : faker.integer({ min: 11, max: 13 }),
+    address_id: data.address_id
+      ? data.address_id
+      : faker.integer({ min: 1, max: 50 }),
+    delivery_type_id: data.delivery_type_id
+      ? data.delivery_type_id
+      : faker.integer({ min: 1, max: 3 })
+  };
+});
+
+// Factory para Pedido Produto
+Factory.blueprint("App/Models/OrderProduct", async (faker, i, data) => {
+  return {
+    quantity: data.quantity
+      ? data.quantity
+      : faker.integer({ min: 1, max: 10 }),
+    product_id: data.product_id
+      ? data.product_id
+      : faker.integer({ min: 1, max: 20 }),
+    order_id: data.order_id ? data.order_id : faker.integer({ min: 1, max: 40 })
+  };
+});
