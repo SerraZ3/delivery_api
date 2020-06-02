@@ -8,16 +8,24 @@ class Coupon extends Model {
     return this.belongsTo("App/Models/DiscountApplication");
   }
   orders() {
-    return this.belongsToMany("App/Models/Order");
+    return this.belongsToMany("App/Models/Order").pivotModel(
+      "App/Models/CouponOrder"
+    );
   }
   products() {
-    return this.belongsToMany("App/Models/Product");
+    return this.belongsToMany("App/Models/Product").pivotModel(
+      "App/Models/CouponProduct"
+    );
   }
   productCategories() {
-    return this.belongsToMany("App/Models/ProductCategory");
+    return this.belongsToMany("App/Models/ProductCategory").pivotModel(
+      "App/Models/CouponProductCategory"
+    );
   }
   users() {
-    return this.belongsToMany("App/Models/User");
+    return this.belongsToMany("App/Models/User").pivotModel(
+      "App/Models/CouponUser"
+    );
   }
 }
 
