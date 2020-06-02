@@ -7,17 +7,14 @@ class ProductCategory extends Model {
   products() {
     return this.belongsToMany("App/Models/Product");
   }
-  productCategories() {
-    return this.belongsToMany("App/Models/ProductCategory");
+  images() {
+    return this.belongsToMany("App/Models/Image");
   }
   loyaltyCards() {
     return this.belongsToMany("App/Models/LoyaltyCard");
   }
   coupons() {
     return this.belongsToMany("App/Models/Coupon");
-  }
-  images() {
-    return this.belongsToMany("App/Models/Image");
   }
 }
 
