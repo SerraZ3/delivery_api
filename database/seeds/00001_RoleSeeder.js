@@ -23,11 +23,17 @@ class RoleSeeder {
       slug: "manager",
       description: "Gerente do Sistema"
     });
-    // Cira o cargo de cliente
+    // Cria o cargo de cliente
     await Role.create({
       name: "Client",
       slug: "client",
       description: "Cliente do Sistema"
+    });
+    // Cria o cargo de Entregador
+    await Role.create({
+      name: "Deliveryman",
+      slug: "deliveryman",
+      description: "Entregador"
     });
   }
 }
