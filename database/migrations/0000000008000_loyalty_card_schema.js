@@ -9,6 +9,7 @@ class LoyaltyCardSchema extends Schema {
       table.increments();
       table.string("code", 100).notNullable();
       table.decimal("quantity", 12, 2).notNullable();
+      table.decimal("value", 12, 2).notNullable();
       table.enum("type", ["percent", "cash"]).default("percent");
 
       // Se o cupom pode ser aplicado com outros cupons
