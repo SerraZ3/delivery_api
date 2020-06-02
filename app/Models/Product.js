@@ -8,7 +8,9 @@ class Product extends Model {
     return this.hasMany("App/Models/OrderProduct");
   }
   productCategories() {
-    return this.belongsToMany("App/Models/ProductCategory");
+    return this.belongsToMany("App/Models/ProductCategory").pivotModel(
+      "App/Models/ProductProductCategory"
+    );
   }
   images() {
     return this.belongsToMany("App/Models/Image").pivotModel(

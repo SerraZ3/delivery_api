@@ -5,7 +5,9 @@ const Model = use("Model");
 
 class ProductCategory extends Model {
   products() {
-    return this.belongsToMany("App/Models/Product");
+    return this.belongsToMany("App/Models/Product").pivotModel(
+      "App/Models/ProductProductCategory"
+    );
   }
   images() {
     return this.belongsToMany("App/Models/Image").pivotModel(
