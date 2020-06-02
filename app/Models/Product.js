@@ -11,7 +11,9 @@ class Product extends Model {
     return this.belongsToMany("App/Models/ProductCategory");
   }
   images() {
-    return this.belongsToMany("App/Models/Image");
+    return this.belongsToMany("App/Models/Image").pivotModel(
+      "App/Models/ProductImage"
+    );
   }
   loyaltyCards() {
     return this.belongsToMany("App/Models/LoyaltyCard");
