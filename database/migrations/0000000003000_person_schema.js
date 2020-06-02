@@ -8,7 +8,7 @@ class PersonSchema extends Schema {
     this.create("people", (table) => {
       table.increments();
       table.string("name");
-      table.decimal("cpf", 11, 0);
+      table.string("cpf", 11);
       table.timestamp("date_birth");
       table.timestamps();
     });
