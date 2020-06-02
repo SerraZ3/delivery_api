@@ -15,7 +15,15 @@ const Factory = use("Factory");
 
 class ProductCategorySeeder {
   async run() {
-    await Factory.model("App/Models/ProductCategory").createMany(20);
+    let productCategories = await Factory.model(
+      "App/Models/ProductCategory"
+    ).createMany(20);
+
+    await Promise.all(
+      await productCategories.map(async (productCategory, idx) => {
+        await productCategory.images().attach([idx + 1, idx + 2]);
+      })
+    );
   }
 }
 
