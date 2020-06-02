@@ -25,6 +25,16 @@ class UserSeeder {
       })
     );
 
+    // Cria 10 usuários
+    let clients2 = await Factory.model("App/Models/User").createMany(3);
+
+    // Vincula a regra de cliente para os 10 usuários
+    await Promise.all(
+      await clients2.map(async (client) => {
+        await client.roles().attach([4]);
+      })
+    );
+
     // Cria 1 usuário
     let admin = await Factory.model("App/Models/User").create({
       email: "serra.henrique3@gmail.com",
