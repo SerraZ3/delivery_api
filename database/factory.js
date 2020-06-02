@@ -40,3 +40,13 @@ Factory.blueprint("App/Models/Address", (faker, i, data) => {
     city_id: data.city_id ? data.city_id : faker.integer({ min: 1, max: 15 })
   };
 });
+
+// Factory para Imagens
+Factory.blueprint("App/Models/Image", async (faker, i, data) => {
+  return {
+    path: data.path ? data.path : "public/images/products",
+    size: data.size ? data.size : 1203123123,
+    original_name: data.original_name ? data.original_name : "bolinho",
+    extension: data.extension ? data.extension : "jpg"
+  };
+});
