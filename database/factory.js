@@ -75,7 +75,7 @@ Factory.blueprint("App/Models/Product", async (faker, i, data) => {
 });
 
 // Factory para Cartao fidelidade
-Factory.blueprint("App/Models/Coupon", async (faker, i, data) => {
+Factory.blueprint("App/Models/LoyaltyCard", async (faker, i, data) => {
   return {
     code: data.code ? data.code : faker.string({ pool: "abcdefg", length: 10 }),
     quantity: data.quantity
@@ -134,5 +134,37 @@ Factory.blueprint("App/Models/OrderProduct", async (faker, i, data) => {
       ? data.product_id
       : faker.integer({ min: 1, max: 20 }),
     order_id: data.order_id ? data.order_id : faker.integer({ min: 1, max: 40 })
+  };
+});
+
+// Factory para Cupom
+Factory.blueprint("App/Models/Coupon", async (faker, i, data) => {
+  let day = faker.integer({ min: 1, max: 29 });
+  let monthStart = faker.integer({ min: 1, max: 3 });
+  let monthEnd = faker.integer({ min: 4, max: 7 });
+  let year = 2020;
+  return {
+    code: data.code ? data.code : faker.string({ pool: "abcdefg", length: 10 }),
+    quantity: data.quantity
+      ? data.quantity
+      : faker.floating({ fixed: 2, min: 0, max: 1000 }),
+    value: data.value
+      ? data.value
+      : faker.floating({ fixed: 2, min: 0, max: 1000 }),
+    type: data.type ? data.type : "cash",
+    recursive: data.recursive ? data.recursive : faker.bool(),
+    active: data.active ? data.active : faker.bool(),
+    apply_total_order: data.apply_total_order
+      ? data.apply_total_order
+      : faker.bool(),
+    discount_application_id: data.discount_application_id
+      ? data.discount_application_id
+      : 2,
+    valid_from: data.valid_from
+      ? data.valid_from
+      : faker.date({ month: monthStart, day, year }),
+    valid_until: data.valid_until
+      ? data.valid_until
+      : faker.date({ month: monthEnd, day, year })
   };
 });
