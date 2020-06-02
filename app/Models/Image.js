@@ -8,7 +8,9 @@ class Image extends Model {
     return this.belongsToMany("App/Models/Product");
   }
   productCategories() {
-    return this.belongsToMany("App/Models/ProductCategory");
+    return this.belongsToMany("App/Models/ProductCategory").pivotModel(
+      "App/Models/ProductCategoryImage"
+    );
   }
 }
 
