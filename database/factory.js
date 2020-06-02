@@ -93,7 +93,7 @@ Factory.blueprint("App/Models/LoyaltyCard", async (faker, i, data) => {
   };
 });
 
-// Factory para Cartao fidelidade
+// Factory para Cartao fidelidade user
 Factory.blueprint("App/Models/LoyaltyCardUser", async (faker, i, data) => {
   return {
     counter: data.counter ? data.counter : faker.integer({ min: 0, max: 10 }),
