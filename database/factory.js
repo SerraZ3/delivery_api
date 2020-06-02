@@ -3,6 +3,7 @@
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const Factory = use("Factory");
 
+// Factory para Usuários
 Factory.blueprint("App/Models/User", (faker, i, data) => {
   return {
     email: data.email ? data.email : faker.email({ domain: "gmail.com" }),
@@ -14,6 +15,7 @@ Factory.blueprint("App/Models/User", (faker, i, data) => {
   };
 });
 
+// Factory para Pessoas
 Factory.blueprint("App/Models/Person", (faker, i, data) => {
   return {
     name: data.name ? data.name : faker.name(),
@@ -26,6 +28,7 @@ Factory.blueprint("App/Models/Person", (faker, i, data) => {
   };
 });
 
+// Factory para Endereços
 Factory.blueprint("App/Models/Address", (faker, i, data) => {
   return {
     street: data.street ? data.street : faker.street({ country: "us" }),
