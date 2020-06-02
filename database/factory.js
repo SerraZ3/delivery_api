@@ -50,3 +50,13 @@ Factory.blueprint("App/Models/Image", async (faker, i, data) => {
     extension: data.extension ? data.extension : "jpg"
   };
 });
+
+// Factory para Product Category
+Factory.blueprint("App/Models/ProductCategory", async (faker, i, data) => {
+  return {
+    name: data.name ? data.name : faker.animal({ type: "zoo" }),
+    description: data.description
+      ? data.description
+      : faker.sentence({ words: 20 })
+  };
+});
