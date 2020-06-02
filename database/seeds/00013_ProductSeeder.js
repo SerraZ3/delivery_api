@@ -20,6 +20,7 @@ class ProductSeeder {
     await Promise.all(
       await products.map(async (product, idx) => {
         await product.images().attach([idx + 1, idx + 2]);
+        await product.productCategories().attach([idx + 1]);
       })
     );
   }
