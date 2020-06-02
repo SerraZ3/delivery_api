@@ -73,3 +73,22 @@ Factory.blueprint("App/Models/Product", async (faker, i, data) => {
       : faker.floating({ fixed: 2, min: 1, max: 100 })
   };
 });
+
+// Factory para Cartao fidelidade
+Factory.blueprint("App/Models/LoyaltyCard", async (faker, i, data) => {
+  return {
+    code: data.code ? data.code : faker.string({ pool: "abcdefg", length: 10 }),
+    quantity: data.quantity
+      ? data.quantity
+      : faker.floating({ fixed: 2, min: 0, max: 1000 }),
+    type: data.type ? data.type : "cash",
+    recursive: data.recursive ? data.recursive : faker.bool(),
+    active: data.active ? data.active : faker.bool(),
+    apply_total_order: data.apply_total_order
+      ? data.apply_total_order
+      : faker.bool(),
+    discount_application_id: data.discount_application_id
+      ? data.discount_application_id
+      : 2
+  };
+});
