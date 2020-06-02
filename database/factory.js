@@ -60,3 +60,16 @@ Factory.blueprint("App/Models/ProductCategory", async (faker, i, data) => {
       : faker.sentence({ words: 20 })
   };
 });
+
+// Factory para Product
+Factory.blueprint("App/Models/Product", async (faker, i, data) => {
+  return {
+    name: data.name ? data.name : faker.animal({ type: "zoo" }),
+    description: data.description
+      ? data.description
+      : faker.sentence({ words: 20 }),
+    price: data.price
+      ? data.price
+      : faker.floating({ fixed: 2, min: 1, max: 100 })
+  };
+});
