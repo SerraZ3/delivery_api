@@ -8,7 +8,9 @@ class LoyaltyCard extends Model {
     return this.hasOne("App/Models/LoyaltyCardUser");
   }
   productCategories() {
-    return this.belongsToMany("App/Models/ProductCategory");
+    return this.belongsToMany("App/Models/ProductCategory").pivotModel(
+      "App/Models/LoyaltyCardProductCategory"
+    );
   }
   products() {
     return this.belongsToMany("App/Models/Product").pivotModel(
