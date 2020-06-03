@@ -206,7 +206,7 @@ class AuthController {
       // Objeto com informações que estarão na mensagem do email
       let configMail = {
         name,
-        url: `${Env.get("APP_URL", "localhost")}/${"teste"}/${token}`,
+        url: `${Env.get("RESET_PASSWORD_URL", "localhost")}/${token}`,
         delivery_name: Env.get("NAME_COMPANY", "delivery")
       };
 
@@ -216,7 +216,7 @@ class AuthController {
         configMail,
         (message) => {
           message.from("foo@bar.com");
-          message.to("serra.henrique3@gmail.com");
+          message.to(Env.get("MAIL_TEST", email));
           message.subject("Recuperação de senha");
         }
       );
