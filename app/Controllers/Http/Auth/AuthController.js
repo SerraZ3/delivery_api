@@ -262,7 +262,63 @@ class AuthController {
         .send({ message: "Erro ao validar token", error });
     }
   }
-  async reset({ request, response }) {}
+  async reset({ request, response }) {
+    const trx = await Database.beginTransaction();
+
+    try {
+      let { password, password_confirmation, user_id, token } = request.all();
+
+      // Checa se as senhas coincidem
+      if (password !== password_confirmation) {
+        throw {
+          code: 1300,
+          message: "Senhas não coincidem"
+        };
+      }
+
+      // Busca por um token
+      let tokenConfirm = await Token.query()
+        .where({ token, is_revoked: false })
+        .fetch();
+
+      // Verifica se o token é válido e está ativo
+      if (tokenConfirm.rows.length === 0) {
+        throw {
+          code: 1301,
+          message: "Token Inválido"
+        };
+      }
+
+      // Pega a primeira posição da busca
+      tokenConfirm = tokenConfirm.rows[0];
+
+      // Moficia o token para revoked
+      tokenConfirm.merge({ is_revoked: true });
+
+      // Salva modificação
+      tokenConfirm.save(trx);
+
+      // Busca usuário
+      let user = await User.find(user_id);
+
+      // Atualiza a senha
+      user.merge({ password });
+
+      // Salva alteraçao
+      await user.save(trx);
+
+      trx.commit();
+
+      return response
+        .status(200)
+        .send({ message: "Senha alterada. Tente realizar login" });
+    } catch (error) {
+      trx.rollback();
+      return response
+        .status(400)
+        .send({ message: "Erro ao validar token", error });
+    }
+  }
 }
 
 module.exports = AuthController;
