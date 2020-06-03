@@ -9,7 +9,7 @@ Route.group(() => {
 
   Route.post("refresh", "AuthController.refresh").as("auth.refresh");
 
-  // Route.post("logout", "AuthController.logout").as("auth.logout");
+  Route.post("logout", "AuthController.logout").as("auth.logout");
 
   // Restore password methods
   // Route.post("reset-password", "AuthController.forgot").as("auth.forgot");
