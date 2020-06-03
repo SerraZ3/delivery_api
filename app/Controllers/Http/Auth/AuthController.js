@@ -238,7 +238,28 @@ class AuthController {
         .send({ message: "Erro ao recuperar senha", error });
     }
   }
-  async remember({ request, response }) {}
+  async remember({ request, response }) {
+    try {
+      let token = request.input("token");
+
+      let tokenConfirm = await Token.findBy("token", token);
+
+      if (!tokenConfirm) {
+        throw {
+          code: 1202,
+          message: "Token Inválido"
+        };
+      }
+      tokenConfirm = tokenConfirm.toJSON();
+      return response
+        .status(200)
+        .send({ message: "Token válido", user_id: tokenConfirm.user_id });
+    } catch (error) {
+      return response
+        .status(400)
+        .send({ message: "Erro ao validar token", error });
+    }
+  }
   async reset({ request, response }) {}
 }
 
