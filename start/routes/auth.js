@@ -16,7 +16,7 @@ Route.group(() => {
 
   Route.get("reset-password", "AuthController.remember").as("auth.remember");
 
-  // Route.put("reset-password", "AuthController.reset").as("auth.reset");
+  Route.put("reset-password", "AuthController.reset").as("auth.reset");
 })
   .prefix("v1/auth")
   .namespace("Auth");
