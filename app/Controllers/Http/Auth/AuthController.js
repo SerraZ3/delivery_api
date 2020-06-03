@@ -12,12 +12,14 @@ class AuthController {
     try {
       const { email, password, password_confirmation, person } = request.all();
 
+      // Checa se as senhas coincidem
       if (password !== password_confirmation) {
         throw {
           code: 1000,
           message: "Senhas não coincidem"
         };
       }
+      // Verifica se email existe
       const checkEmail = await User.findBy("email", email);
       if (checkEmail) {
         throw {
@@ -26,8 +28,10 @@ class AuthController {
         };
       }
 
+      // Cria usuário
       const user = await User.create({ email, password }, trx);
 
+      // Verifica se os dados da pessoa existe para ser registrado
       if (person) {
         if (person.name) {
           if (person.cpf) {
@@ -100,7 +104,6 @@ class AuthController {
         .send({ data: user, message: "Usuário criado com sucesso!" });
     } catch (error) {
       await trx.rollback();
-      console.log(error);
 
       return response
         .status(400)
@@ -118,7 +121,7 @@ class AuthController {
    *
    */
 
-    return response.send({ data });
+    return response.send({ data, message: "Seja bem-vindo!" });
   }
   async refresh({ request, response, auth }) {
     let refresh_token = request.input("refresh_token");
