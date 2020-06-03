@@ -1,7 +1,15 @@
 "use strict";
 const Database = use("Database");
+
 const User = use("App/Models/User");
 const Role = use("Role");
+
+const Token = use("App/Models/Token");
+const Hash = use("Hash");
+
+const Mail = use("Mail");
+
+const Env = use("Env");
 
 const { cpf } = require("cpf-cnpj-validator");
 
@@ -148,7 +156,88 @@ class AuthController {
 
     return response.status(204).send({});
   }
-  async forgot({ request, response }) {}
+  async forgot({ request, response }) {
+    const trx = await Database.beginTransaction();
+
+    try {
+      let email = request.input("email");
+      // Procura pelo email
+      let user = await User.findBy("email", email);
+
+      // Verifica se o email existe
+      if (!user) {
+        throw {
+          code: 1100,
+          message: "E-mail inválido"
+        };
+      }
+      let userJson = user.toJSON();
+      let personJson = (await user.person().fetch()).toJSON();
+
+      // Pega o nome da pessoa
+      let name = personJson.name.split(" ")[0];
+
+      // Pega o id do usuário
+      const user_id = userJson.id;
+      // Typo do token
+      const type = "reset_password";
+      // Gera token a partir do id e do tipo de token
+      const token = await Hash.make(`${user_id}-${type}`);
+      // Diz que no token não foi revoked
+      const is_revoked = false;
+
+      // Cria o token
+      let newToken = await Token.create(
+        { user_id, token, type, is_revoked },
+        trx
+      );
+
+      // Verifica se foi criado
+      if (!newToken) {
+        throw {
+          code: 1101,
+          message: "Erro ao gerar token"
+        };
+      }
+
+      // Objeto com informações que estarão na mensagem do email
+      let configMail = {
+        name,
+        url: `${Env.get("APP_URL", "localhost")}/${"teste"}/${token}`,
+        delivery_name: Env.get("NAME_COMPANY", "delivery")
+      };
+
+      // Prepara para o envio do email
+      let mail = await Mail.send(
+        "emails.reset-password",
+        configMail,
+        (message) => {
+          message.from("foo@bar.com");
+          message.to("serra.henrique3@gmail.com");
+          message.subject("Recuperação de senha");
+        }
+      );
+      // Verifica se foi enviado com sucesso
+      if (!mail) {
+        throw {
+          code: 1102,
+          message: "Erro ao enviar email"
+        };
+      }
+
+      await trx.commit();
+
+      return response
+        .status(200)
+        .send({ message: "E-mail de recuperação enviado!" });
+    } catch (error) {
+      await trx.rollback();
+
+      return response
+        .status(400)
+        .send({ message: "Erro ao recuperar senha", error });
+    }
+  }
   async remember({ request, response }) {}
   async reset({ request, response }) {}
 }
