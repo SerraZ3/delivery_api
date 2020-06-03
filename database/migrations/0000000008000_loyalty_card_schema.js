@@ -8,7 +8,7 @@ class LoyaltyCardSchema extends Schema {
     this.create("loyalty_cards", (table) => {
       table.increments();
       table.string("code", 100).notNullable();
-      table.decimal("quantity", 12, 2).notNullable();
+      table.integer("quantity").unsigned();
       table.decimal("value", 12, 2).notNullable();
       table.enum("type", ["percent", "cash"]).default("percent");
 
