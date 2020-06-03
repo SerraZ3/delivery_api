@@ -117,8 +117,8 @@ class AuthController {
     /**
      *
      * "type": "bearer",
-     * "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjE4LCJpYXQiOjE1OTExNDgzMTl9.Ks24LK4msPJmOwL_V8HH28A0tK7CsjiprNmlwqjxnUY",
-     * "refreshToken": "4f2d527495a0b06e7335031483ebff31FtSzaKI0D0KnU43XDfQi2mdCxLlu7QuFmWisO6JSLiMPBJu/KMOiwe9F/MnLAkz+"
+     * "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjE1LCJpYXQiOjE1OTExNDkxMDV9.NhAuaVopovpL7YP0yDQWCGCbkxNikBct-NggNiG1Ubw",
+     * "refreshToken": "f28359d813b1b4ba3e41a9766890cbadKulIGKvtbLAbLQ854mcQ1NXYSSGkEv88pN0PlnYIs59z9Nw6b5JLrkGxJMUNZRkp"
      */
 
     return response.send({ data, message: "Seja bem-vindo!" });
@@ -129,7 +129,6 @@ class AuthController {
     if (!refresh_token) {
       refresh_token = request.header("refresh_token");
     }
-
     const user = await auth
       .newRefreshToken()
       .generateForRefreshToken(refresh_token);
