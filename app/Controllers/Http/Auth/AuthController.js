@@ -243,11 +243,10 @@ class AuthController {
       let token = request.input("token");
 
       let tokenConfirm = await Token.query()
-        .where("token", token)
-        .where(("is_revoked", false))
+        .where({ token, is_revoked: false })
         .fetch();
 
-      if (!tokenConfirm) {
+      if (tokenConfirm.rows.length === 0) {
         throw {
           code: 1202,
           message: "Token Inválido"
