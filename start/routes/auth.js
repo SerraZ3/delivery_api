@@ -7,7 +7,7 @@ Route.group(() => {
 
   Route.post("login", "AuthController.login").as("auth.login");
 
-  // Route.post("refresh", "AuthController.refresh").as("auth.refresh");
+  Route.post("refresh", "AuthController.refresh").as("auth.refresh");
 
   // Route.post("logout", "AuthController.logout").as("auth.logout");
 
