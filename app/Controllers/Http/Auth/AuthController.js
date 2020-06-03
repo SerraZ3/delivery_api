@@ -113,13 +113,13 @@ class AuthController {
   async login({ request, response, auth }) {
     const { email, password } = request.all();
     let data = await auth.withRefreshToken().attempt(email, password);
+
     /**
-   *
-   * teste com login
-   * "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjM1LCJpYXQiOjE1NzAzOTI4ODh9.tGJlxqoN3y8liFQ47yjXYYT3zb1ev4VMP-c_yLNPEhM",
-      "refreshToken": "e083c6dab485cf69962b7a514c0e0d7c1kNGoyehWPC+b8HErhsLH+h7LQsg3SKoH2phiNxQZfJ1t51aV2k7R2MZRJ4WKAso"
-   *
-   */
+     *
+     * "type": "bearer",
+     * "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjE4LCJpYXQiOjE1OTExNDgzMTl9.Ks24LK4msPJmOwL_V8HH28A0tK7CsjiprNmlwqjxnUY",
+     * "refreshToken": "4f2d527495a0b06e7335031483ebff31FtSzaKI0D0KnU43XDfQi2mdCxLlu7QuFmWisO6JSLiMPBJu/KMOiwe9F/MnLAkz+"
+     */
 
     return response.send({ data, message: "Seja bem-vindo!" });
   }
