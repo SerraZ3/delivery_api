@@ -107,9 +107,12 @@ class AuthController {
       // Roda todos os valores da trx e garante a persistencia
       await trx.commit();
 
-      return response
-        .status(201)
-        .send({ data: user, message: "Usuário criado com sucesso!" });
+      let personData = await user.person().fetch();
+
+      return response.status(201).send({
+        data: { user, person: personData },
+        message: "Usuário criado com sucesso!"
+      });
     } catch (error) {
       await trx.rollback();
 
@@ -243,7 +246,7 @@ class AuthController {
       let token = request.input("token");
 
       let tokenConfirm = await Token.query()
-        .where({ token, is_revoked: false })
+        .where({ token, is_revoked: false, type: "reset_password" })
         .fetch();
 
       if (tokenConfirm.rows.length === 0) {
@@ -278,7 +281,7 @@ class AuthController {
 
       // Busca por um token
       let tokenConfirm = await Token.query()
-        .where({ token, is_revoked: false })
+        .where({ token, is_revoked: false, type: "reset_password" })
         .fetch();
 
       // Verifica se o token é válido e está ativo
