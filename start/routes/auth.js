@@ -14,7 +14,7 @@ Route.group(() => {
   // Restore password methods
   Route.post("reset-password", "AuthController.forgot").as("auth.forgot");
 
-  // Route.get("reset-password", "AuthController.remember").as("auth.remember");
+  Route.get("reset-password", "AuthController.remember").as("auth.remember");
 
   // Route.put("reset-password", "AuthController.reset").as("auth.reset");
 })
