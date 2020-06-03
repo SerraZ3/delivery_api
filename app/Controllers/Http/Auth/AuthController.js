@@ -242,7 +242,10 @@ class AuthController {
     try {
       let token = request.input("token");
 
-      let tokenConfirm = await Token.findBy("token", token);
+      let tokenConfirm = await Token.query()
+        .where("token", token)
+        .where(("is_revoked", false))
+        .fetch();
 
       if (!tokenConfirm) {
         throw {
