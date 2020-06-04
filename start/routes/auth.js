@@ -34,7 +34,8 @@ Route.group(() => {
 
   Route.put("reset-password", "AuthController.reset")
     .as("auth.reset")
-    .middleware("guest");
+    .middleware("guest")
+    .validator("Auth/Reset");
 })
   .prefix("v1/api/auth")
   .namespace("Auth");
