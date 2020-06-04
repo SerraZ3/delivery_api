@@ -18,7 +18,7 @@ class AuthController {
     // Criando uma transaction (Serve para cadastrar diversos elementos no DB e garantir que ou todos serão cadastrados ou nenhum)
     const trx = await Database.beginTransaction();
     try {
-      const { email, password, password_confirmation, person } = request.all();
+      const { email, password, person } = request.all();
 
       // Cria usuário
       const user = await User.create({ email, password }, trx);
