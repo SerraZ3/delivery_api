@@ -86,14 +86,8 @@ class AuthController {
   }
   async login({ request, response, auth }) {
     const { email, password } = request.all();
+    // Valida usuario e gera token
     let data = await auth.withRefreshToken().attempt(email, password);
-
-    /**
-     *
-     * "type": "bearer",
-     * "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjE1LCJpYXQiOjE1OTExNDkxMDV9.NhAuaVopovpL7YP0yDQWCGCbkxNikBct-NggNiG1Ubw",
-     * "refreshToken": "f28359d813b1b4ba3e41a9766890cbadKulIGKvtbLAbLQ854mcQ1NXYSSGkEv88pN0PlnYIs59z9Nw6b5JLrkGxJMUNZRkp"
-     */
 
     return response.send({ data, message: "Seja bem-vindo!" });
   }

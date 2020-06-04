@@ -10,7 +10,8 @@ Route.group(() => {
 
   Route.post("login", "AuthController.login")
     .as("auth.login")
-    .middleware("guest");
+    .middleware("guest")
+    .validator("Auth/Login");
 
   Route.post("refresh", "AuthController.refresh")
     .as("auth.refresh")
