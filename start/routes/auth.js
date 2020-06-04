@@ -3,7 +3,10 @@ const Route = use("Route");
 
 // Agrupar rodas
 Route.group(() => {
-  Route.post("register", "AuthController.register").as("auth.register");
+  Route.post("register", "AuthController.register")
+    .as("auth.register")
+    .middleware("guest")
+    .validator("Auth/Login");
 
   Route.post("login", "AuthController.login")
     .as("auth.login")
