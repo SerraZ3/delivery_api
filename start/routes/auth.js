@@ -6,7 +6,7 @@ Route.group(() => {
   Route.post("register", "AuthController.register")
     .as("auth.register")
     .middleware("guest")
-    .validator("Auth/Login");
+    .validator("Auth/Register");
 
   Route.post("login", "AuthController.login")
     .as("auth.login")
