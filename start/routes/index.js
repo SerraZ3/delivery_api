@@ -19,6 +19,6 @@ const Route = use("Route");
 // Importa roda de autenticação
 require("./auth");
 // // Importa roda de admin
-// require("./admin");
+require("./admin");
 // // Importa roda de admin
 // require("./client");
