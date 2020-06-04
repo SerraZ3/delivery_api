@@ -5,18 +5,30 @@ const Route = use("Route");
 Route.group(() => {
   Route.post("register", "AuthController.register").as("auth.register");
 
-  Route.post("login", "AuthController.login").as("auth.login");
+  Route.post("login", "AuthController.login")
+    .as("auth.login")
+    .middleware("guest");
 
-  Route.post("refresh", "AuthController.refresh").as("auth.refresh");
+  Route.post("refresh", "AuthController.refresh")
+    .as("auth.refresh")
+    .middleware("guest");
 
-  Route.post("logout", "AuthController.logout").as("auth.logout");
+  Route.post("logout", "AuthController.logout")
+    .as("auth.logout")
+    .middleware("auth");
 
   // Restore password methods
-  Route.post("reset-password", "AuthController.forgot").as("auth.forgot");
+  Route.post("reset-password", "AuthController.forgot")
+    .as("auth.forgot")
+    .middleware("guest");
 
-  Route.get("reset-password", "AuthController.remember").as("auth.remember");
+  Route.get("reset-password", "AuthController.remember")
+    .as("auth.remember")
+    .middleware("guest");
 
-  Route.put("reset-password", "AuthController.reset").as("auth.reset");
+  Route.put("reset-password", "AuthController.reset")
+    .as("auth.reset")
+    .middleware("guest");
 })
   .prefix("v1/api/auth")
   .namespace("Auth");
