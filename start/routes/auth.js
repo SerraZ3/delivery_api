@@ -24,7 +24,8 @@ Route.group(() => {
   // Restore password methods
   Route.post("reset-password", "AuthController.forgot")
     .as("auth.forgot")
-    .middleware("guest");
+    .middleware("guest")
+    .validator("Auth/Forgot");
 
   Route.get("reset-password", "AuthController.remember")
     .as("auth.remember")
