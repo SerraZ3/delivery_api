@@ -29,7 +29,8 @@ Route.group(() => {
 
   Route.get("reset-password", "AuthController.remember")
     .as("auth.remember")
-    .middleware("guest");
+    .middleware("guest")
+    .validator("Auth/Forgot");
 
   Route.put("reset-password", "AuthController.reset")
     .as("auth.reset")
