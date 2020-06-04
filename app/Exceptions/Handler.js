@@ -27,7 +27,6 @@ class ExceptionHandler extends BaseExceptionHandler {
       });
       return;
     }
-    s;
     response.status(error.status).send(error.message);
   }
 
