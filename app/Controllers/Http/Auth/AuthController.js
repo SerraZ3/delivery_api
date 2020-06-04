@@ -1,6 +1,7 @@
 "use strict";
 const Database = use("Database");
 
+const Transformer = use("App/Transformers/Auth/UserTransformer");
 const User = use("App/Models/User");
 const Role = use("Role");
 
@@ -14,14 +15,14 @@ const Env = use("Env");
 const { cpf } = require("cpf-cnpj-validator");
 
 class AuthController {
-  async register({ request, response }) {
+  async register({ request, response, transform }) {
     // Criando uma transaction (Serve para cadastrar diversos elementos no DB e garantir que ou todos serão cadastrados ou nenhum)
     const trx = await Database.beginTransaction();
     try {
       const { email, password, person } = request.all();
 
       // Cria usuário
-      const user = await User.create({ email, password }, trx);
+      let user = await User.create({ email, password }, trx);
 
       // Verifica se os dados da pessoa existe para ser registrado
       if (person) {
@@ -40,11 +41,13 @@ class AuthController {
             message: "Formato da data inválido. Formato ex.: dd/mm/yyyy"
           };
         }
-        // Transform date_birth in timestamp
-        person.date_birth = new Date(
-          person.date_birth.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3")
-        );
+        person.date_birth = person.date_birth
+          .replace(/(\d{2})-(\d{2})-(\d{4})/, "$1/$2/$3")
+          .split(/\//);
 
+        person.date_birth = `${person.date_birth[1]}/${person.date_birth[0]}/${person.date_birth[2]}`;
+        // Transform date_birth in timestamp
+        person.date_birth = new Date(person.date_birth);
         // ====================
         //  Validation for cpf
         // ====================
@@ -70,10 +73,10 @@ class AuthController {
       // Roda todos os valores da trx e garante a persistencia
       await trx.commit();
 
-      let personData = await user.person().fetch();
+      user = await transform.item(user, Transformer);
 
       return response.status(201).send({
-        data: { user, person: personData },
+        user,
         message: "Usuário criado com sucesso!"
       });
     } catch (error) {
