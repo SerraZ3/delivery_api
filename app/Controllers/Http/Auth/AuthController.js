@@ -94,6 +94,16 @@ class AuthController {
 
     return response.send({ data, message: "Seja bem-vindo!" });
   }
+  async rolePermission({ request, response, auth }) {
+    let user = await auth.getUser();
+    let userRoles = await user.getRoles();
+
+    let userPermissions = await user.getPermissions();
+
+    let data = { roles: userRoles, permissions: userPermissions };
+
+    return response.send({ data, message: "hello" });
+  }
   async refresh({ request, response, auth }) {
     let refresh_token = request.input("refresh_token");
 

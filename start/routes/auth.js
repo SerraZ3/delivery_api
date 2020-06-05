@@ -13,6 +13,11 @@ Route.group(() => {
     .middleware("guest")
     .validator("Auth/Login");
 
+  Route.get("role-permission", "AuthController.rolePermission")
+    .as("auth.role-permission")
+    .middleware("auth:jwt");
+  // .validator("Auth/Login");
+
   Route.post("refresh", "AuthController.refresh")
     .as("auth.refresh")
     .middleware("guest");
