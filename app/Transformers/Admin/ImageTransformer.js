@@ -12,16 +12,31 @@ class ImageTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the data.
    */
-  transform(image) {
-    image = image.toJSON();
-    return {
-      // add your transformation object here
-      id: image.id,
-      url: image.url,
-      size: image.size,
-      original_name: image.original_name,
-      extension: image.extension
-    };
+  transform(model) {
+    if (model.length > 0) {
+      let date = [];
+      model.map((val, idx) => {
+        model[idx] = val.toJSON();
+        date.push({
+          id: model[idx].id,
+          url: model[idx].url,
+          size: model[idx].size,
+          original_name: model[idx].original_name,
+          extension: model[idx].extension
+        });
+      });
+      return date;
+    } else {
+      model = model.toJSON();
+      return {
+        // add your transformation object here
+        id: model.id,
+        url: model.url,
+        size: model.size,
+        original_name: model.original_name,
+        extension: model.extension
+      };
+    }
   }
 }
 
