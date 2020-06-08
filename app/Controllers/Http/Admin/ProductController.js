@@ -25,6 +25,7 @@ class ProductController {
       // LIKE  = Case sitive
       // ILIKE = Not Case sitive
       query.where("name", "ILIKE", `%${name}%`);
+      query.orWhere("description", "ILIKE", `%${name}%`);
     }
 
     let products = await query.paginate(pagination.page, pagination.limit);
