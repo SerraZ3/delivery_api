@@ -3,7 +3,9 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-
+const Product = use("App/Models/Product");
+const Transform = use("App/Transformers/Admin/ProductTransformer");
+const Database = use("Database");
 /**
  * Resourceful controller for interacting with products
  */
@@ -17,18 +19,36 @@ class ProductController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {}
+  async index({ request, response, pagination, transform }) {
+    const name = request.input("name");
 
+    const query = Product.query();
+
+    if (name) {
+      // LIKE  = Case sitive
+      // ILIKE = Not Case sitive
+      query.where("name", "ILIKE", `%${name}%`);
+    }
+
+    let products = await query.paginate(pagination.page, pagination.limit);
+    products = await transform.paginate(products, Transform);
+
+    return response.send(products);
+  }
   /**
-   * Render a form to be used for creating a new product.
-   * GET products/create
+   * Display a single product.
+   * GET products/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async create({ request, response, view }) {}
+  async show({ params: { id }, transform, response }) {
+    let product = await Product.findOrFail(id);
+
+    product = await transform.item(product, Transform);
+    return response.send(product);
+  }
 
   /**
    * Create/save a new product.
@@ -38,29 +58,47 @@ class ProductController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {}
+  async store({ request, response, transform }) {
+    const trx = await Database.beginTransaction();
 
-  /**
-   * Display a single product.
-   * GET products/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show({ params, request, response, view }) {}
+    try {
+      const {
+        name,
+        description,
+        price,
+        image_id,
+        product_category_id
+      } = request.all();
+      let product = await Product.create(
+        {
+          name,
+          description,
+          price
+        },
+        trx
+      );
 
-  /**
-   * Render a form to update an existing product.
-   * GET products/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit({ params, request, response, view }) {}
+      if (image_id.length > 0) {
+        await product.images().attach(image_id, null, trx);
+      }
+      if (product_category_id.length > 0) {
+        await product
+          .productCategories()
+          .attach(product_category_id, null, trx);
+      }
+      await trx.commit();
+
+      product = await transform.item(product, Transform);
+
+      return response.status(201).send(product);
+    } catch (error) {
+      await trx.rollback();
+
+      response
+        .status(400)
+        .send({ message: "Não foi possivel criar o produto nesse momento!" });
+    }
+  }
 
   /**
    * Update product details.
@@ -70,7 +108,38 @@ class ProductController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, request, response }) {}
+  async update({ params: { id }, request, response, transform }) {
+    const trx = await Database.beginTransaction();
+    let product = await Product.findOrFail(id);
+    try {
+      const {
+        name,
+        description,
+        price,
+        image_id,
+        product_category_id
+      } = request.all();
+
+      product.merge({ name, description, price });
+      await product.save(trx);
+
+      if (image_id.length > 0) {
+        await product.images().sync(image_id, null, trx);
+      }
+      if (product_category_id.length > 0) {
+        await product.productCategories().sync(product_category_id, null, trx);
+      }
+      await trx.commit();
+
+      product = await transform.item(product, Transform);
+
+      return response.send(product);
+    } catch (error) {
+      return response
+        .status(400)
+        .send({ message: "Não foi possivel atualizar esse produto!" });
+    }
+  }
 
   /**
    * Delete a product with id.
@@ -80,7 +149,20 @@ class ProductController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {}
+  async destroy({ params: { id }, request, response }) {
+    const trx = await Database.beginTransaction();
+    const product = await Product.findOrFail(id);
+    try {
+      await product.delete(trx);
+      trx.commit();
+      return response.status(204).send();
+    } catch (error) {
+      trx.rolback();
+      return response
+        .status(500)
+        .send({ message: "Não foi possivel deletar esse produto" });
+    }
+  }
 }
 
 module.exports = ProductController;
