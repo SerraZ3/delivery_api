@@ -9,7 +9,14 @@ Route.group(() => {
    *
    * */
 
-  Route.resource("images", "ImageController").apiOnly();
+  Route.resource("images", "ImageController")
+    .apiOnly()
+    .validator(
+      new Map([
+        [["images.store"], ["Admin/ImageStore"]],
+        [["images.update"], ["Admin/ImageUpdate"]]
+      ])
+    );
   Route.resource("products", "ProductController").apiOnly();
 })
   .prefix("v1/api/admin")
