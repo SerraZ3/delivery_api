@@ -1,8 +1,5 @@
 "use strict";
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
 const Product = use("App/Models/Product");
 const Transform = use("App/Transformers/Admin/ProductTransformer");
 const Database = use("Database");
@@ -17,7 +14,7 @@ class ProductController {
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
-   * @param {View} ctx.view
+   * @param {Transform} ctx.transform
    */
   async index({ request, response, pagination, transform }) {
     const name = request.input("name");
@@ -40,7 +37,7 @@ class ProductController {
    * GET products/:id
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
+   * @param {Transform} ctx.transform
    * @param {Response} ctx.response
    */
   async show({ params: { id }, transform, response }) {
@@ -57,6 +54,7 @@ class ProductController {
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
+   * @param {Transform} ctx.transform
    */
   async store({ request, response, transform }) {
     const trx = await Database.beginTransaction();
@@ -146,10 +144,9 @@ class ProductController {
    * DELETE products/:id
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params: { id }, request, response }) {
+  async destroy({ params: { id }, response }) {
     const trx = await Database.beginTransaction();
     const product = await Product.findOrFail(id);
     try {
