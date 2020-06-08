@@ -10,6 +10,7 @@ Route.group(() => {
    * */
 
   Route.resource("images", "ImageController").apiOnly();
+  Route.resource("products", "ProductController").apiOnly();
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
