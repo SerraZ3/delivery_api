@@ -17,7 +17,14 @@ Route.group(() => {
         [["images.update"], ["Admin/ImageUpdate"]]
       ])
     );
-  Route.resource("products", "ProductController").apiOnly();
+  Route.resource("products", "ProductController")
+    .apiOnly()
+    .validator(
+      new Map([
+        [["products.store"], ["Admin/ProductStore"]],
+        [["products.update"], ["Admin/ProductUpdate"]]
+      ])
+    );
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
