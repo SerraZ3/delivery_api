@@ -28,6 +28,29 @@ class ProductTransformer extends BumblebeeTransformer {
           id: model[idx].id,
           name: model[idx].name,
           price: model[idx].price,
+          description: model[idx].description
+        });
+      });
+      return date;
+    } else {
+      // Se houver apenas um produto para retornar
+      return {
+        id: model.id,
+        name: model.name,
+        price: model.price,
+        description: model.description
+      };
+    }
+  }
+  transformWithTimestamp(model) {
+    // Se houver muitos produtos para retornar
+    if (model.length > 0) {
+      let date = [];
+      model.map((val, idx) => {
+        date.push({
+          id: model[idx].id,
+          name: model[idx].name,
+          price: model[idx].price,
           description: model[idx].description,
           created_at: model[idx].created_at,
           updated_at: model[idx].updated_at
