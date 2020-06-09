@@ -25,6 +25,14 @@ Route.group(() => {
         [["products.update"], ["Admin/ProductUpdate"]]
       ])
     );
+  Route.resource("product-categories", "ProductCategoryController")
+    .apiOnly()
+    .validator(
+      new Map([
+        [["product-categories.store"], ["Admin/ProductCategoryStore"]],
+        [["product-categories.update"], ["Admin/ProductCategoryUpdate"]]
+      ])
+    );
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
