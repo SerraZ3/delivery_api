@@ -9,6 +9,7 @@ class OrderStatusSchema extends Schema {
       table.increments();
       table.string("name");
       table.string("slug");
+      table.string("color", 10);
       table.timestamps();
     });
   }
