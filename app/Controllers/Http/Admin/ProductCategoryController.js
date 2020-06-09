@@ -1,86 +1,156 @@
 "use strict";
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
+const ProductCategory = use("App/Models/ProductCategory");
+const Transform = use("App/Transformers/Admin/ProductCategoryTransformer");
+const Database = use("Database");
 
 /**
  * Resourceful controller for interacting with productcategories
  */
-class ProductCategoryController {
+class ProductCategoryCategoryController {
   /**
-   * Show a list of all productcategories.
-   * GET productcategories
+   * Show a list of all productCategories.
+   * GET productCategories
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
-   * @param {View} ctx.view
+   * @param {Transform} ctx.transform
    */
-  async index({ request, response, view }) {}
+  async index({ request, response, pagination, transform }) {
+    const name = request.input("name");
+
+    const query = ProductCategory.query();
+
+    if (name) {
+      // LIKE  = Case sitive
+      // ILIKE = Not Case sitive
+      query.where("name", "ILIKE", `%${name}%`);
+      query.orWhere("description", "ILIKE", `%${name}%`);
+    }
+
+    let productCategories = await query.paginate(
+      pagination.page,
+      pagination.limit
+    );
+    productCategories = await transform.paginate(productCategories, Transform);
+
+    return response.send(productCategories);
+  }
+  /**
+   * Display a single product.
+   * GET product-categories/:id
+   *
+   * @param {object} ctx
+   * @param {Transform} ctx.transform
+   * @param {Response} ctx.response
+   */
+  async show({ params: { id }, transform, response }) {
+    let product = await ProductCategory.findOrFail(id);
+
+    product = await transform.item(product, Transform);
+    return response.send(product);
+  }
 
   /**
-   * Render a form to be used for creating a new productcategory.
-   * GET productcategories/create
+   * Create/save a new product.
+   * POST productCategories
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
-   * @param {View} ctx.view
+   * @param {Transform} ctx.transform
    */
-  async create({ request, response, view }) {}
+  async store({ request, response, transform }) {
+    const trx = await Database.beginTransaction();
+
+    try {
+      const { name, description, image_id, product_id } = request.all();
+      let productCategories = await ProductCategory.create(
+        {
+          name,
+          description
+        },
+        trx
+      );
+
+      if (image_id.length > 0) {
+        await productCategories.images().attach(image_id, null, trx);
+      }
+      if (product_id.length > 0) {
+        await productCategories.products().attach(product_id, null, trx);
+      }
+      await trx.commit();
+
+      productCategories = await transform.item(productCategories, Transform);
+
+      return response.status(201).send(productCategories);
+    } catch (error) {
+      await trx.rollback();
+      console.log(error);
+
+      response
+        .status(400)
+        .send({ message: "Não foi possivel criar o produto nesse momento!" });
+    }
+  }
 
   /**
-   * Create/save a new productcategory.
-   * POST productcategories
+   * Update product details.
+   * PUT or PATCH product-categories/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {}
+  async update({ params: { id }, request, response, transform }) {
+    const trx = await Database.beginTransaction();
+    let productCategories = await ProductCategory.findOrFail(id);
+    try {
+      const { name, description, image_id, product_id } = request.all();
+
+      productCategories.merge({ name, description });
+      await productCategories.save(trx);
+
+      if (image_id.length > 0) {
+        await productCategories.images().sync(image_id, null, trx);
+      }
+      if (product_id.length > 0) {
+        await productCategories.products().sync(product_id, null, trx);
+      }
+      await trx.commit();
+
+      productCategories = await transform.item(productCategories, Transform);
+
+      return response.send(productCategories);
+    } catch (error) {
+      return response
+        .status(400)
+        .send({ message: "Não foi possivel atualizar esse produto!" });
+    }
+  }
 
   /**
-   * Display a single productcategory.
-   * GET productcategories/:id
+   * Delete a product with id.
+   * DELETE product-categories/:id
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show({ params, request, response, view }) {}
-
-  /**
-   * Render a form to update an existing productcategory.
-   * GET productcategories/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit({ params, request, response, view }) {}
-
-  /**
-   * Update productcategory details.
-   * PUT or PATCH productcategories/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, request, response }) {}
-
-  /**
-   * Delete a productcategory with id.
-   * DELETE productcategories/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy({ params, request, response }) {}
+  async destroy({ params: { id }, response }) {
+    const trx = await Database.beginTransaction();
+    const productCategories = await ProductCategory.findOrFail(id);
+    try {
+      await productCategories.delete(trx);
+      trx.commit();
+      return response.status(204).send();
+    } catch (error) {
+      trx.rolback();
+      return response
+        .status(500)
+        .send({ message: "Não foi possivel deletar esse produto" });
+    }
+  }
 }
 
-module.exports = ProductCategoryController;
+module.exports = ProductCategoryCategoryController;
