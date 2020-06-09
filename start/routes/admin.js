@@ -33,6 +33,15 @@ Route.group(() => {
         [["product-categories.update"], ["Admin/ProductCategoryUpdate"]]
       ])
     );
+
+  Route.resource("order-status", "OrderStatusController")
+    .apiOnly()
+    .validator(
+      new Map([
+        [["order-status.store"], ["Admin/OrderStatusStore"]]
+        // [["order-status.update"], ["Admin/ProductCategoryUpdate"]]
+      ])
+    );
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
