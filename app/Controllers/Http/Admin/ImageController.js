@@ -105,7 +105,7 @@ class ImageController {
    */
   async show({ params: { id }, response, transform }) {
     let image = await Image.findOrFail(id);
-    image = await transform.item(image, Transformer);
+    image = await transform.item(image, "Admin/ImageTransformer.withTimestamp");
 
     response.send(image);
   }
