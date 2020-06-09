@@ -1,0 +1,27 @@
+"use strict";
+
+class AdminProductCategoryStore {
+  get rules() {
+    return {
+      // validation rules
+      name: "required|string",
+      description: "required|string",
+      image_id: "array",
+      product_id: "array"
+    };
+  }
+  // Mostra todos os erros ao inves de apenas um
+  get validateAll() {
+    return true;
+  }
+  // Personaliza a mensagem de validação
+  get messages() {
+    return {
+      array: "O campo '{{field}}' deve ser um array",
+      string: "O campo '{{field}}' deve ser uma string",
+      required: "O campo '{{field}}' é obrigatório"
+    };
+  }
+}
+
+module.exports = AdminProductCategoryStore;
