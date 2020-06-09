@@ -48,7 +48,10 @@ class ProductCategoryCategoryController {
   async show({ params: { id }, transform, response }) {
     let product = await ProductCategory.findOrFail(id);
 
-    product = await transform.item(product, Transform);
+    product = await transform.item(
+      product,
+      "Admin/ProductCategoryTransformer.withTimestamp"
+    );
     return response.send(product);
   }
 
