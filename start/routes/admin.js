@@ -59,6 +59,18 @@ Route.group(() => {
         [["users.update"], ["Admin/UserUpdate"]]
       ])
     );
+  Route.resource("deliveryman", "DeliverymanController").only([
+    "index",
+    "destroy"
+  ]);
+  Route.resource("deliveryman", "UserController")
+    .only(["show", "store", "update"])
+    .validator(
+      new Map([
+        [["users.store"], ["Admin/UserStore"]],
+        [["users.update"], ["Admin/UserUpdate"]]
+      ])
+    );
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
