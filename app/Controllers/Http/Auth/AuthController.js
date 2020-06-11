@@ -214,9 +214,10 @@ class AuthController {
   async remember({ request, response }) {
     try {
       let token = request.input("token");
+      let type = request.input("type");
 
       let tokenConfirm = await Token.query()
-        .where({ token, is_revoked: false, type: "reset_password" })
+        .where({ token, is_revoked: false, type })
         .fetch();
 
       if (tokenConfirm.rows.length === 0) {
@@ -275,7 +276,7 @@ class AuthController {
       let user = await User.find(user_id);
 
       // Atualiza a senha
-      user.merge({ password });
+      user.merge({ password, active: true });
 
       // Salva alteraçao
       await user.save(trx);
@@ -284,7 +285,7 @@ class AuthController {
 
       return response
         .status(200)
-        .send({ message: "Senha alterada. Tente realizar login" });
+        .send({ message: "Nova senha registrada. Tente realizar login" });
     } catch (error) {
       trx.rollback();
       return response
