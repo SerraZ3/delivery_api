@@ -213,8 +213,7 @@ class AuthController {
   }
   async remember({ request, response }) {
     try {
-      let token = request.input("token");
-      let type = request.input("type");
+      let { token, type } = request.all();
 
       let tokenConfirm = await Token.query()
         .where({ token, is_revoked: false, type })
