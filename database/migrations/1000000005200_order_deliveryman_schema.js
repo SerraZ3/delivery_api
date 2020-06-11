@@ -8,7 +8,7 @@ class OrderDeliverymanSchema extends Schema {
     this.table("orders", (table) => {
       // alter table
       table
-        .integer("deliveryman_id")
+        .integer("person_id")
         .unsigned()
         .references("id")
         .inTable("people")
@@ -19,7 +19,7 @@ class OrderDeliverymanSchema extends Schema {
   down() {
     this.table("orders", (table) => {
       // reverse alternations
-      table.dropForeign("deliveryman_id");
+      table.dropForeign("person_id");
     });
   }
 }

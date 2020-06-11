@@ -114,8 +114,8 @@ Factory.blueprint("App/Models/Order", async (faker, i, data) => {
       ? data.order_status_id
       : faker.integer({ min: 1, max: 5 }),
     user_id: data.user_id ? data.user_id : faker.integer({ min: 1, max: 10 }),
-    deliveryman_id: data.deliveryman_id
-      ? data.deliveryman_id
+    person_id: data.person_id
+      ? data.person_id
       : faker.integer({ min: 11, max: 13 }),
     address_id: data.address_id
       ? data.address_id
