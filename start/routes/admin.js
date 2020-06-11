@@ -59,11 +59,11 @@ Route.group(() => {
         [["users.update"], ["Admin/UserUpdate"]]
       ])
     );
-  Route.resource("deliveryman", "DeliverymanController").only([
+  Route.resource("deliverymen", "DeliverymanController").only([
     "index",
     "destroy"
   ]);
-  Route.resource("deliveryman", "UserController")
+  Route.resource("deliverymen", "UserController")
     .only(["show", "store", "update"])
     .validator(
       new Map([
