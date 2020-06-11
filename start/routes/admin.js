@@ -39,7 +39,7 @@ Route.group(() => {
     .validator(
       new Map([
         [["order-status.store"], ["Admin/OrderStatusStore"]],
-        [["order-status.update"], ["Admin/ProductCategoryUpdate"]]
+        [["order-status.update"], ["Admin/OrderStatusUpdate"]]
       ])
     );
 })
