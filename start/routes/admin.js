@@ -42,6 +42,15 @@ Route.group(() => {
         [["order-status.update"], ["Admin/OrderStatusUpdate"]]
       ])
     );
+
+  Route.resource("delivery-type", "DeliveryTypeController")
+    .apiOnly()
+    .validator(
+      new Map([
+        [["delivery-type.store"], ["Admin/DeliveryTypeStore"]],
+        [["delivery-type.update"], ["Admin/DeliveryTypeUpdate"]]
+      ])
+    );
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
