@@ -22,16 +22,16 @@ class ProductTransformer extends BumblebeeTransformer {
   transform(model) {
     // Se houver muitos produtos para retornar
     if (model.length > 0) {
-      let date = [];
+      let data = [];
       model.map((val, idx) => {
-        date.push({
+        data.push({
           id: model[idx].id,
           name: model[idx].name,
           price: model[idx].price,
           description: model[idx].description
         });
       });
-      return date;
+      return data;
     } else {
       // Se houver apenas um produto para retornar
       return {
@@ -45,9 +45,9 @@ class ProductTransformer extends BumblebeeTransformer {
   transformWithTimestamp(model) {
     // Se houver muitos produtos para retornar
     if (model.length > 0) {
-      let date = [];
+      let data = [];
       model.map((val, idx) => {
-        date.push({
+        data.push({
           id: model[idx].id,
           name: model[idx].name,
           price: model[idx].price,
@@ -56,7 +56,7 @@ class ProductTransformer extends BumblebeeTransformer {
           updated_at: model[idx].updated_at
         });
       });
-      return date;
+      return data;
     } else {
       // Se houver apenas um produto para retornar
       return {

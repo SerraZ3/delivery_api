@@ -14,10 +14,10 @@ class ImageTransformer extends BumblebeeTransformer {
    */
   transform(model) {
     if (model.length > 0) {
-      let date = [];
+      let data = [];
       model.map((val, idx) => {
         model[idx] = val.toJSON();
-        date.push({
+        data.push({
           id: model[idx].id,
           url: model[idx].url,
           size: model[idx].size,
@@ -25,7 +25,7 @@ class ImageTransformer extends BumblebeeTransformer {
           extension: model[idx].extension
         });
       });
-      return date;
+      return data;
     } else {
       model = model.toJSON();
       return {
@@ -40,10 +40,10 @@ class ImageTransformer extends BumblebeeTransformer {
   }
   transformWithTimestamp(model) {
     if (model.length > 0) {
-      let date = [];
+      let data = [];
       model.map((val, idx) => {
         model[idx] = val.toJSON();
-        date.push({
+        data.push({
           id: model[idx].id,
           url: model[idx].url,
           size: model[idx].size,
@@ -53,7 +53,7 @@ class ImageTransformer extends BumblebeeTransformer {
           updated_at: model[idx].updated_at
         });
       });
-      return date;
+      return data;
     } else {
       model = model.toJSON();
       return {

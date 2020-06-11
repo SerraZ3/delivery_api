@@ -14,15 +14,15 @@ class ProductCategoryTransformer extends BumblebeeTransformer {
    */
   transform(model) {
     if (model.length > 0) {
-      let date = [];
+      let data = [];
       model.map((val, idx) => {
-        date.push({
+        data.push({
           id: model[idx].id,
           name: model[idx].name,
           description: model[idx].description
         });
       });
-      return date;
+      return data;
     } else {
       return {
         // add your transformation object here
@@ -34,9 +34,9 @@ class ProductCategoryTransformer extends BumblebeeTransformer {
   }
   transformWithTimestamp(model) {
     if (model.length > 0) {
-      let date = [];
+      let data = [];
       model.map((val, idx) => {
-        date.push({
+        data.push({
           id: model[idx].id,
           name: model[idx].name,
           description: model[idx].description,
@@ -44,7 +44,7 @@ class ProductCategoryTransformer extends BumblebeeTransformer {
           updated_at: model[idx].updated_at
         });
       });
-      return date;
+      return data;
     } else {
       return {
         // add your transformation object here
