@@ -71,6 +71,9 @@ Route.group(() => {
         [["users.update"], ["Admin/UserUpdate"]]
       ])
     );
+  Route.resource("orders", "OrderController")
+    .only(["index", "show", "update"])
+    .validator(new Map([[["orders.update"], ["Admin/OrderUpdate"]]]));
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
