@@ -16,14 +16,14 @@ class DeliveryTypeTransformer extends BumblebeeTransformer {
     return {
       id: model.id,
       name: model.name,
-      price: model.price
+      price: parseFloat(model.price)
     };
   }
   transformWithTimestamp(model) {
     return {
       id: model.id,
       name: model.name,
-      price: model.price,
+      price: parseFloat(model.price),
       created_at: model.created_at,
       updated_at: model.updated_at
     };
