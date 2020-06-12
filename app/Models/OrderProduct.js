@@ -4,6 +4,9 @@
 const Model = use("Model");
 
 class OrderProduct extends Model {
+  static get table() {
+    return "order_products";
+  }
   product() {
     return this.belongsTo("App/Models/Product");
   }

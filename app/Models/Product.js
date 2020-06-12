@@ -4,8 +4,10 @@
 const Model = use("Model");
 
 class Product extends Model {
-  orderProducts() {
-    return this.hasMany("App/Models/OrderProduct");
+  orders() {
+    return this.belongsToMany("App/Models/Order")
+      .pivotModel("App/Models/OrderProduct")
+      .withPivot(["quantity"]);
   }
   productCategories() {
     return this.belongsToMany("App/Models/ProductCategory").pivotModel(
