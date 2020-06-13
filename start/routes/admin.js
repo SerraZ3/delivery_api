@@ -74,6 +74,15 @@ Route.group(() => {
   Route.resource("orders", "OrderController")
     .only(["index", "show", "update"])
     .validator(new Map([[["orders.update"], ["Admin/OrderUpdate"]]]));
+
+  Route.resource("loyalty-cards", "LoyaltyCardController")
+    .apiOnly()
+    .validator(
+      new Map([
+        [["loyalty-cards.store"], ["Admin/LoyaltycardStore"]],
+        [["loyalty-cards.update"], ["Admin/LoyaltycardUpdate"]]
+      ])
+    );
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
