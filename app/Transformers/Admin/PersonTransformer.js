@@ -12,7 +12,7 @@ class PersonTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the data.
    */
-  transform(model) {
+  transform = (model) => {
     let date_birth = new Date(model.date_birth);
     let day = date_birth.getDate();
     let month = date_birth.getMonth() + 1;
@@ -27,7 +27,7 @@ class PersonTransformer extends BumblebeeTransformer {
       cpf: model.cpf,
       date_birth: date_birth
     };
-  }
+  };
 }
 
 module.exports = PersonTransformer;

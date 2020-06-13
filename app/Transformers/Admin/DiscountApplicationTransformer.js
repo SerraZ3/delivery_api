@@ -12,13 +12,11 @@ class DiscountApplicationTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the default data.
    */
-  transform(model) {
-    return {
-      id: model.id,
-      name: model.name,
-      slug: model.slug
-    };
-  }
+  transform = (model) => ({
+    id: model.id,
+    name: model.name,
+    slug: model.slug
+  });
 }
 
 module.exports = DiscountApplicationTransformer;

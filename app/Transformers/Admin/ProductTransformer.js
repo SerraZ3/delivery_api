@@ -19,19 +19,17 @@ class ProductTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the data.
    */
-  transform(model) {
+  transform = (model) => {
     // Se houver muitos produtos para retornar
     if (model.length > 0) {
-      let data = [];
-      model.map((val, idx) => {
-        data.push({
-          id: model[idx].id,
-          name: model[idx].name,
-          price: model[idx].price,
-          description: model[idx].description
-        });
+      return model.map((product) => {
+        return {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          description: product.description
+        };
       });
-      return data;
     } else {
       // Se houver apenas um produto para retornar
       return {
@@ -41,22 +39,20 @@ class ProductTransformer extends BumblebeeTransformer {
         description: model.description
       };
     }
-  }
-  transformWithTimestamp(model) {
+  };
+  transformWithTimestamp = (model) => {
     // Se houver muitos produtos para retornar
     if (model.length > 0) {
-      let data = [];
-      model.map((val, idx) => {
-        data.push({
-          id: model[idx].id,
-          name: model[idx].name,
-          price: model[idx].price,
-          description: model[idx].description,
-          created_at: model[idx].created_at,
-          updated_at: model[idx].updated_at
-        });
+      return model.map((product) => {
+        return {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          description: product.description,
+          created_at: product.created_at,
+          updated_at: product.updated_at
+        };
       });
-      return data;
     } else {
       // Se houver apenas um produto para retornar
       return {
@@ -68,18 +64,15 @@ class ProductTransformer extends BumblebeeTransformer {
         updated_at: model.updated_at
       };
     }
-  }
-  includeImages(model) {
-    // Pega o relacionamento de produto com a imagem
-    return this.item(model.getRelated("images"), ImageTransformer);
-  }
-  includeProductCategories(model) {
-    // Pega o relacionamento do produto com a categoria
-    return this.item(
+  };
+  includeImages = (model) =>
+    this.item(model.getRelated("images"), ImageTransformer);
+
+  includeProductCategories = (model) =>
+    this.item(
       model.getRelated("productCategories"),
       ProductCategoryTransformer
     );
-  }
 }
 
 module.exports = ProductTransformer;

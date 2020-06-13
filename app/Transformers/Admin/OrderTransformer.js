@@ -30,65 +30,55 @@ class OrderTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the default data.
    */
-  transform(model) {
-    return {
-      id: model.id
-    };
-  }
+  transform = (model) => ({
+    id: model.id
+  });
   /**
    * This method is used to transform the default data.
    */
-  transformWithTimestamp(model) {
-    return {
-      id: model.id,
-      created_at: model.created_at,
-      updated_at: model.updated_at
-    };
-  }
-  includeOrderStatus(model) {
-    return this.item(model.getRelated("orderStatus"), OrderStatusTransformer);
-  }
-  includeUser(model) {
-    return this.item(model.getRelated("user"), UserTransformer);
-  }
-  includePerson(model) {
-    return this.item(model.getRelated("person"), PersonTransformer);
-  }
-  includeAddress(model) {
-    return this.item(model.getRelated("address"), AddressTransformer);
-  }
-  includeDeliveryType(model) {
-    return this.item(model.getRelated("deliveryType"), DeliveryTypeTransformer);
-  }
-  includeProducts(model) {
-    return this.item(model.getRelated("products"), (val) => {
-      if (val.length > 0) {
-        let data = [];
+  transformWithTimestamp = (model) => ({
+    id: model.id,
+    created_at: model.created_at,
+    updated_at: model.updated_at
+  });
 
-        val.map((value) => {
-          console.log(value.$relations.pivot.quantity);
+  includeOrderStatus = (model) =>
+    this.item(model.getRelated("orderStatus"), OrderStatusTransformer);
 
-          data.push({
-            id: value.id,
-            name: value.name,
-            price: parseFloat(value.price),
-            description: value.description,
-            quantity: value.$relations.pivot.quantity
-          });
+  includeUser = (model) => this.item(model.getRelated("user"), UserTransformer);
+
+  includePerson = (model) =>
+    this.item(model.getRelated("person"), PersonTransformer);
+
+  includeAddress = (model) =>
+    this.item(model.getRelated("address"), AddressTransformer);
+
+  includeDeliveryType = (model) =>
+    this.item(model.getRelated("deliveryType"), DeliveryTypeTransformer);
+
+  includeProducts = (model) =>
+    this.item(model.getRelated("products"), (products) => {
+      if (products.length > 0) {
+        return products.map((product) => {
+          return {
+            id: product.id,
+            name: product.name,
+            price: parseFloat(product.price),
+            description: product.description,
+            quantity: product.$relations.pivot.quantity
+          };
         });
-        return data;
       } else {
         // Se houver apenas um produto para retornar
         return {
-          id: val.id,
-          name: val.name,
-          price: parseFloat(value.price),
-          description: val.description,
-          quantity: val.$relations.pivot.quantity
+          id: products.id,
+          name: products.name,
+          price: parseFloat(products.price),
+          description: products.description,
+          quantity: products.$relations.pivot.quantity
         };
       }
     });
-  }
 }
 
 module.exports = OrderTransformer;

@@ -12,20 +12,18 @@ class ImageTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the data.
    */
-  transform(model) {
+  transform = (model) => {
     if (model.length > 0) {
-      let data = [];
-      model.map((val, idx) => {
-        model[idx] = val.toJSON();
-        data.push({
-          id: model[idx].id,
-          url: model[idx].url,
-          size: model[idx].size,
-          original_name: model[idx].original_name,
-          extension: model[idx].extension
-        });
+      return model.map((image) => {
+        image = image.toJSON();
+        return {
+          id: image.id,
+          url: image.url,
+          size: image.size,
+          original_name: image.original_name,
+          extension: image.extension
+        };
       });
-      return data;
     } else {
       model = model.toJSON();
       return {
@@ -37,23 +35,21 @@ class ImageTransformer extends BumblebeeTransformer {
         extension: model.extension
       };
     }
-  }
-  transformWithTimestamp(model) {
+  };
+  transformWithTimestamp = (model) => {
     if (model.length > 0) {
-      let data = [];
-      model.map((val, idx) => {
-        model[idx] = val.toJSON();
-        data.push({
-          id: model[idx].id,
-          url: model[idx].url,
-          size: model[idx].size,
-          original_name: model[idx].original_name,
-          extension: model[idx].extension,
-          created_at: model[idx].created_at,
-          updated_at: model[idx].updated_at
-        });
+      return model.map((image) => {
+        image = image.toJSON();
+        return {
+          id: image.id,
+          url: image.url,
+          size: image.size,
+          original_name: image.original_name,
+          extension: image.extension,
+          created_at: model.created_at,
+          updated_at: model.updated_at
+        };
       });
-      return data;
     } else {
       model = model.toJSON();
       return {
@@ -67,7 +63,7 @@ class ImageTransformer extends BumblebeeTransformer {
         updated_at: model.updated_at
       };
     }
-  }
+  };
 }
 
 module.exports = ImageTransformer;

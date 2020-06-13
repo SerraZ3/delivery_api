@@ -16,26 +16,21 @@ class StateTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the default data.
    */
-  transform(model) {
-    return {
-      id: model.id,
-      name: model.name
-    };
-  }
+  transform = (model) => ({
+    id: model.id,
+    name: model.name
+  });
   /**
    * This method is used to transform the default data.
    */
-  transformWithTimestamp(model) {
-    return {
-      id: model.id,
-      name: model.name,
-      created_at: model.created_at,
-      updated_at: model.updated_at
-    };
-  }
-  includeCountry(model) {
-    return this.item(model.getRelated("country"), CountryTransformer);
-  }
+  transformWithTimestamp = (model) => ({
+    id: model.id,
+    name: model.name,
+    created_at: model.created_at,
+    updated_at: model.updated_at
+  });
+  includeCountry = (model) =>
+    this.item(model.getRelated("country"), CountryTransformer);
 }
 
 module.exports = StateTransformer;

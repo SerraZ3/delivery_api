@@ -12,22 +12,18 @@ class DeliveryTypeTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the data.
    */
-  transform(model) {
-    return {
-      id: model.id,
-      name: model.name,
-      price: parseFloat(model.price)
-    };
-  }
-  transformWithTimestamp(model) {
-    return {
-      id: model.id,
-      name: model.name,
-      price: parseFloat(model.price),
-      created_at: model.created_at,
-      updated_at: model.updated_at
-    };
-  }
+  transform = (model) => ({
+    id: model.id,
+    name: model.name,
+    price: parseFloat(model.price)
+  });
+  transformWithTimestamp = (model) => ({
+    id: model.id,
+    name: model.name,
+    price: parseFloat(model.price),
+    created_at: model.created_at,
+    updated_at: model.updated_at
+  });
 }
 
 module.exports = DeliveryTypeTransformer;

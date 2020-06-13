@@ -12,17 +12,15 @@ class ProductCategoryTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the data.
    */
-  transform(model) {
+  transform = (model) => {
     if (model.length > 0) {
-      let data = [];
-      model.map((val, idx) => {
-        data.push({
-          id: model[idx].id,
-          name: model[idx].name,
-          description: model[idx].description
-        });
+      return model.map((category) => {
+        return {
+          id: category.id,
+          name: category.name,
+          description: category.description
+        };
       });
-      return data;
     } else {
       return {
         // add your transformation object here
@@ -31,20 +29,19 @@ class ProductCategoryTransformer extends BumblebeeTransformer {
         description: model.description
       };
     }
-  }
-  transformWithTimestamp(model) {
+  };
+
+  transformWithTimestamp = (model) => {
     if (model.length > 0) {
-      let data = [];
-      model.map((val, idx) => {
-        data.push({
-          id: model[idx].id,
-          name: model[idx].name,
-          description: model[idx].description,
-          created_at: model[idx].created_at,
-          updated_at: model[idx].updated_at
-        });
+      model.map((category) => {
+        return {
+          id: category.id,
+          name: category.name,
+          description: category.description,
+          created_at: category.created_at,
+          updated_at: category.updated_at
+        };
       });
-      return data;
     } else {
       return {
         // add your transformation object here
@@ -55,7 +52,7 @@ class ProductCategoryTransformer extends BumblebeeTransformer {
         updated_at: model.updated_at
       };
     }
-  }
+  };
 }
 
 module.exports = ProductCategoryTransformer;

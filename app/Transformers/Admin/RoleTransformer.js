@@ -18,17 +18,15 @@ class RoleTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the data.
    */
-  transform(model) {
+  transform = (model) => {
     if (model.length > 0) {
-      let data = [];
-      model.map((val, idx) => {
-        data.push({
-          id: model[idx].id,
-          name: model[idx].name,
-          slug: model[idx].slug
-        });
+      return model.map((role) => {
+        return {
+          id: role.id,
+          name: role.name,
+          slug: role.slug
+        };
       });
-      return data;
     } else {
       return {
         // add your transformation object here
@@ -38,20 +36,19 @@ class RoleTransformer extends BumblebeeTransformer {
         slug: model.slug
       };
     }
-  }
-  transformWithTimestamp(model) {
+  };
+
+  transformWithTimestamp = (model) => {
     if (model.length > 0) {
-      let data = [];
-      model.map((val, idx) => {
-        data.push({
-          id: model[idx].id,
-          name: model[idx].name,
-          slug: model[idx].slug,
-          created_at: model[idx].created_at,
-          updated_at: model[idx].updated_at
-        });
+      return model.map((role) => {
+        return {
+          id: role.id,
+          name: role.name,
+          slug: role.slug,
+          created_at: role.created_at,
+          updated_at: role.updated_at
+        };
       });
-      return data;
     } else {
       return {
         // add your transformation object here
@@ -63,11 +60,10 @@ class RoleTransformer extends BumblebeeTransformer {
         updated_at: model.updated_at
       };
     }
-  }
-  includePermissions(model) {
-    // Pega o relacionamento da categoria com a imagem
-    return this.item(model.getRelated("permissions"), PermissionTransformer);
-  }
+  };
+
+  includePermissions = (model) =>
+    this.item(model.getRelated("permissions"), PermissionTransformer);
 }
 
 module.exports = RoleTransformer;

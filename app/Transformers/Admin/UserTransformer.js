@@ -20,65 +20,54 @@ class UserTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the default data.
    */
-  transform(model) {
-    return {
-      id: model.id,
-      email: model.email
-    };
-  }
+  transform = (model) => ({
+    id: model.id,
+    email: model.email
+  });
   /**
    * This method is used to transform the default data.
    */
-  transformWithTimestamp(model) {
-    return {
-      id: model.id,
-      email: model.email,
-      created_at: model.created_at,
-      updated_at: model.updated_at
-    };
-  }
+  transformWithTimestamp = (model) => ({
+    id: model.id,
+    email: model.email,
+    created_at: model.created_at,
+    updated_at: model.updated_at
+  });
   /**
    * This method is used to transform the data.
    */
-  transformComplete(model) {
-    return {
-      // add your transformation object here
-      id: model.id,
-      email: model.email,
-      active: model.active,
-      name: model.name,
-      cpf: model.cpf,
-      date_birth: model.date_birth
-    };
-  }
+  transformComplete = (model) => ({
+    // add your transformation object here
+    id: model.id,
+    email: model.email,
+    active: model.active,
+    name: model.name,
+    cpf: model.cpf,
+    date_birth: model.date_birth
+  });
   /**
    * This method is used to transform the data.
    */
-  transformCompleteWithTimestamp(model) {
-    return {
-      // add your transformation object here
-      id: model.id,
-      email: model.email,
-      active: model.active,
-      name: model.name,
-      cpf: model.cpf,
-      date_birth: model.date_birth,
-      created_at: model.created_at,
-      updated_at: model.updated_at
-    };
-  }
-  includePerson(model) {
-    // Pega o relacionamento da categoria com a imagem
-    return this.item(model.getRelated("person"), PersonTransformer);
-  }
-  includeRoles(model) {
-    // Pega o relacionamento da categoria com a imagem
-    return this.item(model.getRelated("roles"), RoleTransformer);
-  }
-  includePermissions(model) {
-    // Pega o relacionamento da categoria com a imagem
-    return this.item(model.getRelated("permissions"), PermissionTransformer);
-  }
+  transformCompleteWithTimestamp = (model) => ({
+    // add your transformation object here
+    id: model.id,
+    email: model.email,
+    active: model.active,
+    name: model.name,
+    cpf: model.cpf,
+    date_birth: model.date_birth,
+    created_at: model.created_at,
+    updated_at: model.updated_at
+  });
+
+  includePerson = (model) =>
+    this.item(model.getRelated("person"), PersonTransformer);
+
+  includeRoles = (model) =>
+    this.item(model.getRelated("roles"), RoleTransformer);
+
+  includePermissions = (model) =>
+    this.item(model.getRelated("permissions"), PermissionTransformer);
 }
 
 module.exports = UserTransformer;
