@@ -345,7 +345,7 @@ class UserController {
       trx.commit();
       return response.status(204).send();
     } catch (error) {
-      trx.rolback();
+      trx.rollback();
       return response.status(500).send({
         message: "Não foi possivel deletar o usuário no momento"
       });
