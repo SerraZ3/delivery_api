@@ -175,7 +175,6 @@ class LoyaltyCardController {
       return response.status(201).send(loyaltyCard);
     } catch (error) {
       await trx.rollback();
-      // console.log(error);
 
       response.status(400).send({
         message: "Não foi possivel criar o cartão fidelidade nesse momento!"

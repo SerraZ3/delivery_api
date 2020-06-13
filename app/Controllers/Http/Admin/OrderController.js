@@ -141,8 +141,6 @@ class OrderController {
   async show({ params: { id }, response, transform }) {
     let order = await Order.findOrFail(id);
     let teste = await order.products().fetch();
-    console.log(teste);
-    console.log(order);
     order = await transform.item(order, "Admin/OrderTransformer.withTimestamp");
     return response.send(order);
   }
@@ -177,7 +175,6 @@ class OrderController {
       return response.status(201).send(order);
     } catch (error) {
       await trx.rollback();
-      console.log(error);
 
       response.status(400).send({
         message: "Não foi possivel atualizar pedido nesse momento!"

@@ -183,7 +183,7 @@ class CouponController {
       return response.status(201).send(coupon);
     } catch (error) {
       await trx.rollback();
-      // console.log(error);
+      // (error);
 
       response.status(400).send({
         message: "Não foi possivel criar o cupom nesse momento!"

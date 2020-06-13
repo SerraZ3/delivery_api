@@ -86,8 +86,6 @@ class ImageController {
         .status(201)
         .send({ successes: images, errors: files.errors });
     } catch (error) {
-      console.log(error);
-
       return response
         .status(400)
         .send({ message: "Não foi possivel processar sua operação" });
@@ -125,7 +123,6 @@ class ImageController {
       image.save();
 
       image = await transform.item(image, Transformer);
-      console.log(image);
       return response.status(200).send(image);
     } catch (error) {
       return response

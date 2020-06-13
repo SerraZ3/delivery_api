@@ -90,7 +90,6 @@ class ProductCategoryCategoryController {
       return response.status(201).send(productCategories);
     } catch (error) {
       await trx.rollback();
-      console.log(error);
 
       response
         .status(400)

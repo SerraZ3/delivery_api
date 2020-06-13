@@ -231,7 +231,6 @@ class UserController {
       });
     } catch (error) {
       await trx.rollback();
-      console.log(error);
 
       return response
         .status(400)
