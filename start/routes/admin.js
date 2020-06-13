@@ -83,6 +83,14 @@ Route.group(() => {
         [["loyalty-cards.update"], ["Admin/LoyaltycardUpdate"]]
       ])
     );
+  Route.resource("coupons", "CouponController")
+    .apiOnly()
+    .validator(
+      new Map([
+        [["coupons.store"], ["Admin/CouponStore"]],
+        [["coupons.update"], ["Admin/CouponUpdate"]]
+      ])
+    );
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
