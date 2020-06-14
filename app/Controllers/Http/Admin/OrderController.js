@@ -19,7 +19,7 @@ class OrderController {
    */
   async index({ request, response, pagination, transform }) {
     const { name, way, order } = request.all();
-    // Pelo ID do entregador
+
     const query = Database.select([
       "os.name as order_status_name",
       "os.slug as order_status_slug",
@@ -140,7 +140,6 @@ class OrderController {
    */
   async show({ params: { id }, response, transform }) {
     let order = await Order.findOrFail(id);
-    let teste = await order.products().fetch();
     order = await transform.item(order, "Admin/OrderTransformer.withTimestamp");
     return response.send(order);
   }
