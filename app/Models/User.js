@@ -50,10 +50,6 @@ class User extends Model {
   usedLoyaltyCard() {
     return this.hasMany("App/Models/UsedLoyaltyCard");
   }
-  loyaltyCardUser() {
-    return this.hasOne("App/Models/LoyaltyCardUser");
-  }
-
   coupons() {
     return this.belongsToMany("App/Models/Coupon").pivotModel(
       "App/Models/CouponUser"

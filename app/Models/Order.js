@@ -46,11 +46,6 @@ class Order extends Model {
       .pivotModel("App/Models/OrderProduct")
       .withPivot(["quantity"]);
   }
-  loyaltyCardUsers() {
-    return this.belongsToMany("App/Models/LoyaltyCardUser").pivotModel(
-      "App/Models/LoyaltyCardUserOrder"
-    );
-  }
   coupons() {
     return this.belongsToMany("App/Models/Coupon").pivotModel(
       "App/Models/CouponOrder"

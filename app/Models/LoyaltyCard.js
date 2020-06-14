@@ -4,9 +4,6 @@
 const Model = use("Model");
 
 class LoyaltyCard extends Model {
-  loyaltyCardUser() {
-    return this.hasOne("App/Models/LoyaltyCardUser");
-  }
   usedLoyaltyCard() {
     return this.hasMany("App/Models/UsedLoyaltyCard");
   }
