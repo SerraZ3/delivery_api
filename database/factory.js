@@ -11,7 +11,10 @@ Factory.blueprint("App/Models/User", (faker, i, data) => {
     active: data.active ? data.active : faker.bool(),
     email_verified_at: data.email_verified_at
       ? data.email_verified_at
-      : faker.date()
+      : faker.date(),
+    counter_loyalty_card: data.counter_loyalty_card
+      ? data.counter_loyalty_card
+      : faker.integer({ min: 0, max: 10 })
   };
 });
 
@@ -92,6 +95,15 @@ Factory.blueprint("App/Models/LoyaltyCard", async (faker, i, data) => {
     discount_application_id: data.discount_application_id
       ? data.discount_application_id
       : 2
+  };
+});
+
+// Factory para Cartao fidelidade user
+Factory.blueprint("App/Models/UsedLoyaltyCard", async (faker, i, data) => {
+  return {
+    order_id: data.order_id ? data.order_id : i + 1,
+    user_id: data.user_id ? data.user_id : i + 1,
+    loyalty_card_id: data.loyalty_card_id ? data.loyalty_card_id : i + 1
   };
 });
 
