@@ -47,7 +47,9 @@ class User extends Model {
   orders() {
     return this.hasMany("App/Models/Order");
   }
-
+  usedLoyaltyCard() {
+    return this.hasMany("App/Models/UsedLoyaltyCard");
+  }
   loyaltyCardUser() {
     return this.hasOne("App/Models/LoyaltyCardUser");
   }

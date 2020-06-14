@@ -38,6 +38,9 @@ class Order extends Model {
   deliveryType() {
     return this.belongsTo("App/Models/DeliveryType");
   }
+  usedLoyaltyCard() {
+    return this.hasMany("App/Models/UsedLoyaltyCard");
+  }
   products() {
     return this.belongsToMany("App/Models/Product")
       .pivotModel("App/Models/OrderProduct")
