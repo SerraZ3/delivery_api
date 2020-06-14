@@ -30,17 +30,32 @@ class OrderTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the default data.
    */
-  transform = (model) => ({
-    id: model.id
-  });
+  transform = async (model) => {
+    model = model.toJSON();
+    return {
+      id: model.id,
+      amount_will_paid: model.amount_will_paid,
+      type_payment: model.type_payment,
+      change_cash: await model.change_cash,
+      total_price: await model.total_price
+    };
+  };
   /**
    * This method is used to transform the default data.
    */
-  transformWithTimestamp = (model) => ({
-    id: model.id,
-    created_at: model.created_at,
-    updated_at: model.updated_at
-  });
+  transformWithTimestamp = async (model) => {
+    model = await model.toJSON();
+    console.log(model);
+    return {
+      id: model.id,
+      total_price: await model.total_price,
+      amount_will_paid: model.amount_will_paid,
+      type_payment: model.type_payment,
+      change_cash: await model.change_cash,
+      created_at: model.created_at,
+      updated_at: model.updated_at
+    };
+  };
 
   includeOrderStatus = (model) =>
     this.item(model.getRelated("orderStatus"), OrderStatusTransformer);
@@ -68,6 +83,9 @@ class OrderTransformer extends BumblebeeTransformer {
             quantity: product.$relations.pivot.quantity
           };
         });
+      }
+      if (products.length === 0) {
+        return {};
       } else {
         // Se houver apenas um produto para retornar
         return {
@@ -75,7 +93,9 @@ class OrderTransformer extends BumblebeeTransformer {
           name: products.name,
           price: parseFloat(products.price),
           description: products.description,
-          quantity: products.$relations.pivot.quantity
+          quantity: products.$relations
+            ? products.$relations.pivot.quantity
+            : null
         };
       }
     });
