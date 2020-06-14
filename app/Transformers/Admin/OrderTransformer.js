@@ -45,7 +45,6 @@ class OrderTransformer extends BumblebeeTransformer {
    */
   transformWithTimestamp = async (model) => {
     model = await model.toJSON();
-    console.log(model);
     return {
       id: model.id,
       total_price: await model.total_price,
