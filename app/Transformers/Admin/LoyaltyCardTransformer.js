@@ -51,23 +51,35 @@ class LoyaltyCardTransformer extends BumblebeeTransformer {
     );
 
   includeProducts = (model) =>
-    this.item(model.getRelated("products"), (products) =>
-      products.map((product) => ({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        description: product.description
-      }))
+    this.item(model.getRelated("products"), async (products) =>
+      Promise.all(
+        products.map(async (product) => {
+          let images = await product.images().fetch();
+          return {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            images: images.toJSON()
+          };
+        })
+      )
     );
 
   includeProductCategories = (model) =>
-    this.item(model.getRelated("productCategories"), (categories) =>
-      categories.map((category) => ({
-        id: category.id,
-        name: category.name,
-        price: category.price,
-        description: category.description
-      }))
+    this.item(model.getRelated("productCategories"), async (categories) =>
+      Promise.all(
+        categories.map(async (category) => {
+          let images = await category.images().fetch();
+          return {
+            id: category.id,
+            name: category.name,
+            price: category.price,
+            description: category.description,
+            images: images.toJSON()
+          };
+        })
+      )
     );
 }
 
