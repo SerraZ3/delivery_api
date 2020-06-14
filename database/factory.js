@@ -122,7 +122,7 @@ Factory.blueprint("App/Models/Order", async (faker, i, data) => {
       : faker.integer({ min: 1, max: 3 }),
     amount_will_paid: data.amount_will_paid
       ? data.amount_will_paid
-      : faker.floating({ fixed: 2, min: 0, max: 1000 }),
+      : faker.floating({ fixed: 2, min: 5000, max: 10000 }),
     type_payment: data.type_payment ? data.type_payment : "cash"
   };
 });
