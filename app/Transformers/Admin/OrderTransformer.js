@@ -36,6 +36,7 @@ class OrderTransformer extends BumblebeeTransformer {
       id: model.id,
       amount_will_paid: model.amount_will_paid,
       type_payment: model.type_payment,
+      total: model.total,
       change_cash: await model.change_cash,
       total_price: await model.total_price
     };
@@ -47,10 +48,9 @@ class OrderTransformer extends BumblebeeTransformer {
     model = await model.toJSON();
     return {
       id: model.id,
-      total_price: await model.total_price,
       amount_will_paid: model.amount_will_paid,
       type_payment: model.type_payment,
-      change_cash: await model.change_cash,
+      total: model.total,
       created_at: model.created_at,
       updated_at: model.updated_at
     };
