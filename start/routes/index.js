@@ -21,4 +21,4 @@ require("./auth");
 // // Importa roda de admin
 require("./admin");
 // // Importa roda de admin
-// require("./client");
+require("./client");
