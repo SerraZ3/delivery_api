@@ -4,25 +4,16 @@
 const Model = use("Model");
 
 class Order extends Model {
-  static get computed() {
-    return ["total_price", "change_cash"];
-  }
-  async getTotalPrice(order) {
-    let products = await this.products().fetch();
-    let totalPrice = 0;
-    products.rows.map((product) => {
-      let quantity = product.$relations.pivot.quantity.toFixed(2);
-      let price = product.price;
-      totalPrice = totalPrice + price * quantity;
-    });
+  static boot() {
+    super.boot();
 
-    return await totalPrice.toFixed(2);
+    /**
+     * A hook to hash the user password before saving
+     * it to the database.
+     */
+    this.addHook("afterFind", "OrderHook.UpdateValues");
   }
-  async getChangeCash(order) {
-    let totalPrice = await order.total_price;
 
-    return await (order.amount_will_paid - totalPrice).toFixed(2);
-  }
   orderStatus() {
     return this.belongsTo("App/Models/OrderStatus");
   }
