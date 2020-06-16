@@ -10,4 +10,7 @@ Route.group(() => {
    * */
   Route.resource("products", "Admin/ProductController").only(["index", "show"]);
   Route.get("product-categories", "Client/ProductController.categoryList");
+  Route.resource("user", "Admin/UserController")
+    .only(["show", "update", "delete"])
+    .middleware(["auth:jwt"]);
 }).prefix("v1/api/client");
