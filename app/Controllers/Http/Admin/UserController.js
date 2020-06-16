@@ -301,11 +301,6 @@ class UserController {
       if (roles_id) {
         // Vincula regra ao usuário
         await user.roles().sync(roles_id, null, trx);
-      } else {
-        // Pelo ID do cliente
-        const userRole = await Role.findBy("slug", "client");
-        // Vincula regra ao usuário
-        await user.roles().sync([userRole.id], null, trx);
       }
       if (permissions_id) {
         // Vincula permissao ao usuário
