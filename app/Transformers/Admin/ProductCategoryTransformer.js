@@ -9,6 +9,9 @@ const BumblebeeTransformer = use("Bumblebee/Transformer");
  * @constructor
  */
 class ProductCategoryTransformer extends BumblebeeTransformer {
+  static get availableInclude() {
+    return ["products"];
+  }
   /**
    * This method is used to transform the data.
    */
@@ -53,6 +56,21 @@ class ProductCategoryTransformer extends BumblebeeTransformer {
       };
     }
   };
+  includeProducts = (model) =>
+    this.item(model.getRelated("products"), async (products) =>
+      Promise.all(
+        products.map(async (product) => {
+          let images = await product.images().fetch();
+          return {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            images: images.toJSON()
+          };
+        })
+      )
+    );
 }
 
 module.exports = ProductCategoryTransformer;
