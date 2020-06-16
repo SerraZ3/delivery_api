@@ -27,6 +27,13 @@ class ExceptionHandler extends BaseExceptionHandler {
       });
       return;
     }
+    if (error.name === "ForbiddenException") {
+      response
+        .status(error.status)
+        .send("Você não tem permissão para acessar essa área");
+      return;
+    }
+
     response.status(error.status).send(error.message);
   }
 
