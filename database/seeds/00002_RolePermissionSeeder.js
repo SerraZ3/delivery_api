@@ -21,27 +21,27 @@ class RolePermissionSeeder {
 
     // Permissão de criar usuário administrador
     await Permission.create({
-      name: "Create Admin Users",
-      slug: "create_admin_users",
-      description: "Create admin users permission"
+      name: "Create Users",
+      slug: "create_users",
+      description: "Create users permission"
     });
     // Permissão de visualizar usuário administrador
     await Permission.create({
-      name: "Read Admin Users",
-      slug: "read_admin_users",
-      description: "Read admin users permission"
+      name: "Read Users",
+      slug: "read_users",
+      description: "Read users permission"
     });
     // Permissão de atualizar usuário administrador
     await Permission.create({
-      name: "Update Admin Users",
-      slug: "update_admin_users",
-      description: "Update admin users permission"
+      name: "Update Users",
+      slug: "update_users",
+      description: "Update users permission"
     });
     // Permissão de deletar usuário administrador
     await Permission.create({
-      name: "Delete Admin Users",
-      slug: "delete_admin_users",
-      description: "Delete admin users permission"
+      name: "Delete Users",
+      slug: "delete_users",
+      description: "Delete users permission"
     });
 
     // ============================
@@ -53,15 +53,15 @@ class RolePermissionSeeder {
 
     // Permissão de atualizar pedidos
     await Permission.create({
-      name: "Update Order",
-      slug: "update_order",
-      description: "Update Order permission"
+      name: "Update Orders",
+      slug: "update_orders",
+      description: "Update Orders permission"
     });
     // Permissão de visualizar pedidos
     await Permission.create({
-      name: "Read Order",
-      slug: "read_order",
-      description: "Read Order permission"
+      name: "Read Orders",
+      slug: "read_orders",
+      description: "Read Orders permission"
     });
 
     // ==========================================
@@ -72,27 +72,27 @@ class RolePermissionSeeder {
 
     // Permissão de criar produtos e categorias
     await Permission.create({
-      name: "Create Product",
-      slug: "create_product",
-      description: "Create product permission"
+      name: "Create Products",
+      slug: "create_products",
+      description: "Create products permission"
     });
     // Permissão de visualizar produtos e categorias
     await Permission.create({
-      name: "Read Product",
-      slug: "read_product",
-      description: "Read product permission"
+      name: "Read Products",
+      slug: "read_products",
+      description: "Read products permission"
     });
     // Permissão de atualizar produtos e categorias
     await Permission.create({
-      name: "Update Product",
-      slug: "update_product",
-      description: "Update product permission"
+      name: "Update Products",
+      slug: "update_products",
+      description: "Update products permission"
     });
     // Permissão de deletar produtos e categorias
     await Permission.create({
-      name: "Delete Product",
-      slug: "delete_product",
-      description: "Delete product permission"
+      name: "Delete Products",
+      slug: "delete_products",
+      description: "Delete products permission"
     });
 
     // ==========================================
@@ -103,9 +103,9 @@ class RolePermissionSeeder {
 
     // Permissão de visualizar estatísticas
     await Permission.create({
-      name: "Read Statistic",
-      slug: "read_statistic",
-      description: "Read statistic permission"
+      name: "Read Statistics",
+      slug: "read_statistics",
+      description: "Read statistics permission"
     });
 
     // ==============================
@@ -122,27 +122,27 @@ class RolePermissionSeeder {
 
     // Permissão de criar cupons e cartão fidelidade
     await Permission.create({
-      name: "Create Discount",
-      slug: "create_discount",
-      description: "Create discount permission"
+      name: "Create Discounts",
+      slug: "create_discounts",
+      description: "Create discounts permission"
     });
     // Permissão de visualizar cupons e cartão fidelidade
     await Permission.create({
-      name: "Read Discount",
-      slug: "read_discount",
-      description: "Read discount permission"
+      name: "Read Discounts",
+      slug: "read_discounts",
+      description: "Read discounts permission"
     });
     // Permissão de atualizar cupons e cartão fidelidade
     await Permission.create({
-      name: "Update Discount",
-      slug: "update_discount",
-      description: "Update discount permission"
+      name: "Update Discounts",
+      slug: "update_discounts",
+      description: "Update discounts permission"
     });
     // Permissão de deletar cupons e cartão fidelidade
     await Permission.create({
-      name: "Delete Discount",
-      slug: "delete_discount",
-      description: "Delete discount permission"
+      name: "Delete Discounts",
+      slug: "delete_discounts",
+      description: "Delete discounts permission"
     });
 
     // ==============================
@@ -151,27 +151,27 @@ class RolePermissionSeeder {
 
     // Permissão de criar entregadores
     await Permission.create({
-      name: "Create Deliveryman",
-      slug: "create_deliveryman",
-      description: "Create deliveryman permission"
+      name: "Create Deliverymen",
+      slug: "create_deliverymen",
+      description: "Create deliverymen permission"
     });
     // Permissão de visualizar entregadores
     await Permission.create({
-      name: "Read Deliveryman",
-      slug: "read_deliveryman",
-      description: "Read deliveryman permission"
+      name: "Read Deliverymen",
+      slug: "read_deliverymen",
+      description: "Read deliverymen permission"
     });
     // Permissão de atualizar entregadores
     await Permission.create({
-      name: "Update Deliveryman",
-      slug: "update_deliveryman",
-      description: "Update deliveryman permission"
+      name: "Update Deliverymen",
+      slug: "update_deliverymen",
+      description: "Update deliverymen permission"
     });
     // Permissão de deletar entregadores
     await Permission.create({
-      name: "Delete Deliveryman",
-      slug: "delete_deliveryman",
-      description: "Delete deliveryman permission"
+      name: "Delete Deliverymen",
+      slug: "delete_deliverymen",
+      description: "Delete deliverymen permission"
     });
   }
 }
