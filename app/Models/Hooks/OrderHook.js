@@ -245,16 +245,18 @@ OrderHook.UpdateValues = async (order) => {
   const orderProduct = await order.products().fetch();
 
   let value = {};
+  orderProduct.rows.length > 0
+    ? (value.total = toFloat(
+        orderProduct.rows
+          .map((product) => {
+            let quantity = toFloat(product.$relations.pivot.quantity);
 
-  value.total = toFloat(
-    orderProduct.rows
-      .map((product) => {
-        let quantity = toFloat(product.$relations.pivot.quantity);
-        let price = product.price;
-        return price * quantity;
-      })
-      .reduce((accumulator, current) => accumulator + current)
-  );
+            let price = product.price;
+            return price * quantity;
+          })
+          .reduce((accumulator, current) => accumulator + current)
+      ))
+    : (value.total = null);
   value.discount = 0;
   value.coupons = [];
 
