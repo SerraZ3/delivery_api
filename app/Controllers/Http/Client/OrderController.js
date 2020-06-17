@@ -49,6 +49,13 @@ class OrderController {
     const trx = await Database.beginTransaction();
     let order = await Order.findOrFail(id);
     try {
+      const {
+        address_id,
+        delivery_type_id,
+        type_payment,
+        amount_will_paid,
+        products
+      } = request.all();
       // Pega o usuário do request
       let user = await auth.getUser();
       // Verifica se existe esse pedido vinculado ao usuário
@@ -65,9 +72,35 @@ class OrderController {
       if (order.order_status_id >= 3) {
         throw {
           status: 401,
-          message: "O pedido já foi enviado, não é mais possivel ser cancelado"
+          message:
+            "O pedido já foi enviado, não é mais possivel ser atualizado. Por favor entre em contato com estabelecimento para fazer modificações!"
         };
       }
+
+      await Order.query(trx).where("id", order.id).update({
+        address_id,
+        delivery_type_id,
+        type_payment,
+        amount_will_paid
+      });
+
+      let orderProducts = await order.products().sync(products[0], null, trx);
+
+      await Promise.all(
+        orderProducts.map(async (orderProduct) => {
+          let index = products[0].findIndex(
+            (value) => value === orderProduct.product_id
+          );
+
+          orderProduct.quantity = products[1][index];
+
+          await orderProduct.save(trx);
+        })
+      );
+
+      await trx.commit();
+
+      order = await Order.find(order.id);
 
       order = await transform
         .include("person,roles,permissions")
@@ -76,7 +109,6 @@ class OrderController {
       return response.status(201).send(order);
     } catch (error) {
       await trx.rollback();
-      console.log(error);
 
       response.status(400).send({
         message:
@@ -94,6 +126,7 @@ class OrderController {
    * @param {Request}   ctx.request
    * @param {Response}  ctx.response
    * @param {Transform} ctx.transform
+   * @param {Auth}      ctx.auth
    */
   async store({ request, response, transform, auth }) {
     const trx = await Database.beginTransaction();
@@ -123,7 +156,21 @@ class OrderController {
         trx
       );
       if (order) {
-        await order.products().attach(products[0], null, trx);
+        let orderProducts = await order
+          .products()
+          .attach(products[0], null, trx);
+
+        await Promise.all(
+          orderProducts.map(async (orderProduct) => {
+            let index = products[0].findIndex(
+              (value) => value === orderProduct.product_id
+            );
+
+            orderProduct.quantity = products[1][index];
+
+            await orderProduct.save(trx);
+          })
+        );
       }
 
       // if (coupons && coupons.length > 0) {
@@ -133,13 +180,10 @@ class OrderController {
       //     let coupon = await Coupon.find(value);
 
       //     if (coupon.quantity > 0) {
-      //       console.log(coupon);
       //       await Coupon.query(trx).where("id", value).decrement("quantity", 1);
       //       couponsID.push(value);
-      //       // console.log(couponsID);
       //     }
       //   });
-      //   console.log("aasd");
 
       //   await order.coupons().attach(couponsID, null, trx);
       // }
@@ -151,7 +195,7 @@ class OrderController {
 
       await trx.commit();
       order = await Order.find(order.id);
-      console.log(order);
+
       order = await transform
         .include("person,roles,permissions")
         .item(order, Transform);
@@ -159,7 +203,6 @@ class OrderController {
       return response.status(201).send(order);
     } catch (error) {
       await trx.rollback();
-      console.log(error);
 
       response.status(400).send({
         message: "Não foi possivel cadastrar o pedido nesse momento!"
@@ -172,11 +215,10 @@ class OrderController {
    *
    * @param {Object}    ctx
    * @param {Id}        ctx.params.id
-   * @param {Request}   ctx.request
    * @param {Response}  ctx.response
-   * @param {Transform} ctx.transform
+   * @param {Auth}      ctx.auth
    */
-  async destroy({ params: { id }, request, response, transform, auth }) {
+  async destroy({ params: { id }, response, auth }) {
     const trx = await Database.beginTransaction();
     let order = await Order.findOrFail(id);
     try {
