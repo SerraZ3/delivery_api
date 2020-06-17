@@ -261,7 +261,6 @@ OrderHook.UpdateValues = async (order) => {
   if (usedLoyaltyCard) {
     // Pega as caracteristica do cartão fidelidade
     const loyaltyCard = await LoyaltyCard.find(usedLoyaltyCard.loyalty_card_id);
-    console.log(value.discount);
 
     let validLoyaltyCardReturn = await validLoyaltyCard(
       orderProduct,
