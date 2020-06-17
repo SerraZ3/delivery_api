@@ -14,9 +14,16 @@ Route.group(() => {
 
   Route.resource("user", "Admin/UserController")
     .only(["show", "update", "destroy"])
-    .middleware(["auth:jwt"]);
+    .middleware(["auth:jwt"])
+    .validator(new Map([[["user.update"], ["Admin/UserUpdate"]]]));
 
   Route.resource("orders", "Client/OrderController")
     .only(["show", "store", "destroy", "update"])
-    .middleware(["auth:jwt", "is:client"]);
+    .middleware(["auth:jwt", "is:client"])
+    .validator(
+      new Map([
+        [["orders.store"], ["Client/OrderStore"]],
+        [["orders.update"], ["Client/OrderUpdate"]]
+      ])
+    );
 }).prefix("v1/api/client");
