@@ -88,11 +88,17 @@ class AuthController {
     }
   }
   async login({ request, response, auth }) {
-    const { email, password } = request.all();
-    // Valida usuario e gera token
-    let data = await auth.withRefreshToken().attempt(email, password);
+    try {
+      const { email, password } = request.all();
+      // Valida usuario e gera token
+      let data = await auth.withRefreshToken().attempt(email, password);
 
-    return response.send({ data, message: "Seja bem-vindo!" });
+      return response.send({ data, message: "Seja bem-vindo!" });
+    } catch (error) {
+      return response
+        .status(400)
+        .send({ message: "E-mail ou senha incorreta" });
+    }
   }
   async rolePermission({ request, response, auth }) {
     let user = await auth.getUser();
