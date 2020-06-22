@@ -91,9 +91,13 @@ class UserController {
    * @param {Response}  ctx.response
    * @param {Transform} ctx.transform
    */
-  async show({ params: { id }, response, transform }) {
-    let user = await User.findOrFail(id);
-
+  async show({ params: { id }, response, transform, auth }) {
+    let user;
+    if (id) {
+      user = await User.find(id);
+    } else {
+      user = await auth.getUser();
+    }
     user = await transform
       .include("person,roles,permissions")
       .item(user, "Admin/UserTransformer.withTimestamp");
