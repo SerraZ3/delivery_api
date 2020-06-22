@@ -9,6 +9,7 @@ Route.group(() => {
    *
    * */
   Route.resource("products", "Admin/ProductController").only(["index", "show"]);
+  Route.get("products-by-id", "Admin/ProductController.showById");
 
   Route.get("product-categories", "Client/ProductController.categoryList");
 
@@ -16,6 +17,7 @@ Route.group(() => {
     .only(["show", "update", "destroy"])
     .middleware(["auth:jwt"])
     .validator(new Map([[["user.update"], ["Admin/UserUpdate"]]]));
+  Route.get("user", "Admin/UserController.show");
 
   Route.resource("orders", "Client/OrderController")
     .only(["show", "store", "destroy", "update"])
