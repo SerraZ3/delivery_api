@@ -33,7 +33,6 @@ class ExceptionHandler extends BaseExceptionHandler {
         .send("Você não tem permissão para acessar essa área");
       return;
     }
-
     response.status(error.status).send(error.message);
   }
 
@@ -48,6 +47,10 @@ class ExceptionHandler extends BaseExceptionHandler {
    * @return {void}
    */
   async report(error, { request }) {
+    // console.log(request.all());
+    console.log(error);
+    // console.log(error.status);
+
     if (error.status >= 500) {
       Logger.error(error.message, {
         stack: error.stack,
