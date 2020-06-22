@@ -25,10 +25,35 @@ class ProductController {
       // LIKE  = Case sitive
       // ILIKE = Not Case sitive
       query.where("name", "ILIKE", `%${name}%`);
-      query.orWhere("description", "ILIKE", `%${name}%`);
+      // query.orWhere("description", "ILIKE", `%${name}%`);
     }
 
     let products = await query.paginate(pagination.page, pagination.limit);
+    products = await transform.paginate(products, Transform);
+
+    return response.send(products);
+  }
+  /**
+   * Show a list of all products.
+   * GET products
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {Transform} ctx.transform
+   */
+  async showById({ request, response, transform }) {
+    const ids = request.input("products");
+
+    const query = Product.query();
+
+    if (ids) {
+      query.whereIn("id", ids);
+    } else {
+      return response.send({ data: [] });
+    }
+
+    let products = await query.paginate(1, 100);
     products = await transform.paginate(products, Transform);
 
     return response.send(products);
