@@ -9,6 +9,9 @@ const BumblebeeTransformer = use("Bumblebee/Transformer");
  * @constructor
  */
 class PersonTransformer extends BumblebeeTransformer {
+  static get defaultInclude() {
+    return ["phone"];
+  }
   /**
    * This method is used to transform the data.
    */
@@ -27,6 +30,12 @@ class PersonTransformer extends BumblebeeTransformer {
       cpf: model.cpf,
       date_birth: date_birth
     };
+  }
+  includePhone(model) {
+    // Pega o relacionamento da categoria com a imagem
+    return this.item(model.getRelated("phone"), (phone) => ({
+      number: phone.number
+    }));
   }
 }
 

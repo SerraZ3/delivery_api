@@ -3,6 +3,7 @@ const Database = use("Database");
 
 const Transformer = use("App/Transformers/Auth/UserTransformer");
 const User = use("App/Models/User");
+const Phone = use("App/Models/Phone");
 const Role = use("Role");
 
 const Token = use("App/Models/Token");
@@ -15,11 +16,19 @@ const Env = use("Env");
 const { cpf } = require("cpf-cnpj-validator");
 
 class AuthController {
-  async register({ request, response, transform }) {
-    // Criando uma transaction (Serve para cadastrar diversos elementos no DB e garantir que ou todos serão cadastrados ou nenhum)
+  /**
+   * Cadastra novo cliente
+   * GET coupons
+   *
+   * @param {Object}     ctx
+   * @param {Request}    ctx.request
+   * @param {Response}   ctx.response
+   * @param {Transform}  ctx.transform
+   */
+  async registerClient({ request, response, transform }) {
     const trx = await Database.beginTransaction();
     try {
-      const { email, password, person } = request.all();
+      const { email, password, person, phone } = request.all();
 
       // Cria usuário
       let user = await User.create({ email, password }, trx);
@@ -62,9 +71,16 @@ class AuthController {
             message: "CPF inválido"
           };
         }
+        let newPhone = phone.replace(/[^0-9 ]/g, "");
 
         // Cria a pessoa vinculando as informações do usuário
-        await user.person().create(person, trx);
+        const newPerson = await user.person().create(person, trx);
+
+        // Cria um novo telefone
+        newPhone = await Phone.create({ number: newPhone }, trx);
+
+        // Vincula telefone a pessoa
+        await newPhone.person().save(newPerson, trx);
       }
 
       const userRole = await Role.findBy("slug", "client");
@@ -81,6 +97,7 @@ class AuthController {
       });
     } catch (error) {
       await trx.rollback();
+      console.log(error);
 
       return response
         .status(400)

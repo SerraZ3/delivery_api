@@ -6,6 +6,7 @@ class AuthLogin {
       // validation rules
       email: "required|email|unique:users,email|string",
       password: "required|confirmed|string",
+      phone: "string",
       password_confirmation: "required|string",
       "person.name": "requiredIf:person|string",
       "person.cpf": "requiredIf:person|string",
