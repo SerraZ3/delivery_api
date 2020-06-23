@@ -53,6 +53,16 @@ class UserSeeder {
     // Vicula a regra de administrador e cliente a esse usuário
     await manager.roles().attach([2, 3]);
     await manager.permissions().attach([1, 2, 3, 4, 5, 6]);
+
+    // Cria 1 usuário admin
+    let client = await Factory.model("App/Models/User").create({
+      email: "luiz1@gmail.com",
+      active: true
+    });
+
+    // Vicula a regra de administrador e cliente a esse usuário
+    await client.roles().attach([2, 3, 4]);
+    await client.permissions().attach([1, 2, 3, 4, 5, 6]);
   }
 }
 
