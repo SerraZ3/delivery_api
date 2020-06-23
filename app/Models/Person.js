@@ -13,6 +13,9 @@ class Person extends Model {
   orders() {
     return this.hasMany("App/Models/Order");
   }
+  phone() {
+    return this.belongsTo("App/Models/Phone");
+  }
 }
 
 module.exports = Person;
