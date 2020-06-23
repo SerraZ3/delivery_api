@@ -55,6 +55,11 @@ class User extends Model {
       "App/Models/CouponUser"
     );
   }
+  establishments() {
+    return this.belongsToMany("App/Models/Establishment").pivotModel(
+      "App/Models/EstablishmentUser"
+    );
+  }
 }
 
 module.exports = User;
