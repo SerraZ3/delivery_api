@@ -13,6 +13,9 @@ class Address extends Model {
   orders() {
     return this.hasMany("App/Models/Order");
   }
+  establishments() {
+    return this.belongsToMany("App/Models/Establishment");
+  }
 }
 
 module.exports = Address;

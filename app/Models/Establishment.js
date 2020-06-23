@@ -12,6 +12,9 @@ class Establishment extends Model {
   phone() {
     return this.belongsTo("App/Models/Phone");
   }
+  addresses() {
+    return this.belongsToMany("App/Models/Address");
+  }
 }
 
 module.exports = Establishment;
