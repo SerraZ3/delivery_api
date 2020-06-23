@@ -17,6 +17,7 @@ class OrderStatusSeeder {
   async run() {
     await OrderStatus.createMany([
       { name: "Pendente", slug: "pendente", color: "#606060" },
+      { name: "Confirmado", slug: "confirmado", color: "#FCE200" },
       { name: "Cancelado", slug: "cancelado", color: "#FC0000" },
       { name: "Enviado", slug: "enviado", color: "#FC7200" },
       { name: "Pago", slug: "pago", color: "#00C900" },
