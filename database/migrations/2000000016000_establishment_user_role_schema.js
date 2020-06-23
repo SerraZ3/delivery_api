@@ -11,7 +11,7 @@ class EstablishmentUserRoleSchema extends Schema {
         .integer("establishment_user_id")
         .unsigned()
         .references("id")
-        .inTable("establishment_user")
+        .inTable("establishment_users")
         .onDelete("CASCADE");
       table
         .integer("role_id")
