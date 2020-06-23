@@ -18,6 +18,23 @@ Factory.blueprint("App/Models/User", (faker, i, data) => {
   };
 });
 
+// Factory para Estabelecimento
+Factory.blueprint("App/Models/Establishment", (faker, i, data) => {
+  return {
+    name: data.name ? data.name : faker.name(),
+    description: data.description
+      ? data.description
+      : faker.sentence({ words: 20 }),
+    phone_id: data.phone_id ? data.phone_id : 1
+  };
+});
+// Factory para Telephone
+Factory.blueprint("App/Models/Phone", (faker, i, data) => {
+  return {
+    number: data.number ? data.number : faker.phone({ formatted: false })
+  };
+});
+
 // Factory para Pessoas
 Factory.blueprint("App/Models/Person", (faker, i, data) => {
   return {
@@ -27,7 +44,8 @@ Factory.blueprint("App/Models/Person", (faker, i, data) => {
       : `${Math.floor(10000000000 + Math.random() * 10000000001)}`,
     date_birth: data.date_birth ? data.date_birth : faker.date(),
     user_id: data.user_id ? data.user_id : 1,
-    address_id: data.address_id ? data.address_id : 1
+    address_id: data.address_id ? data.address_id : 1,
+    phone_id: data.phone_id ? data.phone_id : 1
   };
 });
 
