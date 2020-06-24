@@ -245,6 +245,42 @@ class AuthController {
         .send({ message: "E-mail ou senha incorreta" });
     }
   }
+  async redirectToProvider({ ally, params: { provider } }) {
+    await ally.driver(provider).redirect();
+  }
+
+  async handleProviderCallback({ params: { provider }, ally, auth, response }) {
+    try {
+      const userData = await ally.driver(provider).getUser();
+
+      const authUser = await User.query()
+        .where({
+          provider: provider,
+          provider_id: userData.getId()
+        })
+        .first();
+      if (!(authUser === null)) {
+        await auth.loginViaId(authUser.id);
+        return response.redirect("/");
+      }
+
+      const user = new User();
+      user.name = userData.getName();
+      user.username = userData.getNickname();
+      user.email = userData.getEmail();
+      user.provider_id = userData.getId();
+      user.avatar = userData.getAvatar();
+      user.provider = provider;
+
+      await user.save();
+
+      await auth.loginViaId(user.id);
+      return response.redirect("/");
+    } catch (e) {
+      console.log(e);
+      response.redirect("/auth/" + provider);
+    }
+  }
   async rolePermission({ request, response, auth }) {
     const establishment_id = request.input("establishment_id");
     let user = await auth.getUser();

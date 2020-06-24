@@ -18,6 +18,13 @@ Route.group(() => {
     .middleware("guest")
     .validator("Auth/Login");
 
+  Route.get("/login/:provider", "AuthController.redirectToProvider")
+    .as("social.login")
+    .middleware("guest");
+  Route.get("/authenticated/:provider", "AuthController.handleProviderCallback")
+    .as("social.login.callback")
+    .middleware("guest");
+
   Route.get("role-permission", "AuthController.rolePermission")
     .as("auth.role-permission")
     .middleware("auth:jwt");
