@@ -4,6 +4,7 @@ const Database = use("Database");
 const Transformer = use("App/Transformers/Auth/UserTransformer");
 const User = use("App/Models/User");
 const Phone = use("App/Models/Phone");
+const EstablishmentUser = use("App/Models/EstablishmentUser");
 const Role = use("Role");
 
 const Token = use("App/Models/Token");
@@ -104,13 +105,25 @@ class AuthController {
         .send({ message: "Erro ao realizar cadastro", error });
     }
   }
-  async login({ request, response, auth }) {
+  /**
+   * Realiza qualquer l
+   * GET coupons
+   *
+   * @param {Object}     ctx
+   * @param {Request}    ctx.request
+   * @param {Response}   ctx.response
+   * @param {Auth}       ctx.auth
+   * @param {Transform}  ctx.transform
+   */
+  async login({ request, response, auth, transform }) {
     try {
       const { email, password } = request.all();
       // Valida usuario e gera token
       let data = await auth.withRefreshToken().attempt(email, password);
+      let user = await User.findBy({ email });
+      user = await transform.item(user, Transformer);
 
-      return response.send({ data, message: "Seja bem-vindo!" });
+      return response.status(200).send({ data, user });
     } catch (error) {
       return response
         .status(400)
@@ -118,12 +131,41 @@ class AuthController {
     }
   }
   async rolePermission({ request, response, auth }) {
+    const establishment_id = request.input("establishment_id");
     let user = await auth.getUser();
+    let establishmentUser = null;
+    let establishmentUserRoles = [];
+    let establishmentUserPermissions = [];
+
+    if (establishment_id) {
+      establishmentUser = await EstablishmentUser.findBy({
+        user_id: user.id,
+        establishment_id
+      });
+      establishmentUserRoles = await establishmentUser.getRoles();
+      establishmentUserPermissions = await establishmentUser.getPermissions();
+    } else {
+      establishmentUser = await EstablishmentUser.query()
+        .where("user_id", user.id)
+        .fetch();
+      Promise.all(
+        establishmentUser.rows.map(async (element) => {
+          establishmentUserRoles.push(await element.getRoles());
+          establishmentUserPermissions.push(await element.getPermissions());
+        })
+      );
+    }
     let userRoles = await user.getRoles();
 
     let userPermissions = await user.getPermissions();
 
-    let data = { roles: userRoles, permissions: userPermissions };
+    let data = {
+      user: { roles: userRoles, permissions: userPermissions },
+      establishment: {
+        roles: establishmentUserRoles,
+        permissions: establishmentUserPermissions
+      }
+    };
 
     return response.send({ data, message: "hello" });
   }
