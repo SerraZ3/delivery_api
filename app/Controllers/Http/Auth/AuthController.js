@@ -4,6 +4,7 @@ const Database = use("Database");
 const Transformer = use("App/Transformers/Auth/UserTransformer");
 const User = use("App/Models/User");
 const Phone = use("App/Models/Phone");
+const Establishment = use("App/Models/Establishment");
 const EstablishmentUser = use("App/Models/EstablishmentUser");
 const Role = use("Role");
 
@@ -85,6 +86,120 @@ class AuthController {
       }
 
       const userRole = await Role.findBy("slug", "client");
+
+      await user.roles().attach([userRole.id], null, trx);
+      // Roda todos os valores da trx e garante a persistencia
+      await trx.commit();
+
+      user = await transform.item(user, Transformer);
+
+      return response.status(201).send({
+        user,
+        message: "Usuário criado com sucesso!"
+      });
+    } catch (error) {
+      await trx.rollback();
+      console.log(error);
+
+      return response
+        .status(400)
+        .send({ message: "Erro ao realizar cadastro", error });
+    }
+  }
+  /**
+   * Cadastra novo estabelecimento e usuário se nencessário
+   * GET coupons
+   *
+   * @param {Object}     ctx
+   * @param {Request}    ctx.request
+   * @param {Response}   ctx.response
+   * @param {Transform}  ctx.transform
+   */
+  async registerEstablishment({ request, response, transform }) {
+    const trx = await Database.beginTransaction();
+    try {
+      const { email, password, person, phone, establishment } = request.all();
+
+      let userExist = await User.findBy({ email });
+      let user;
+
+      if (userExist) {
+        let newEstablishment = await Establishment.create(establishment, trx);
+        await newEstablishment.users().attach([userExist.id], null, trx);
+        user = userExist;
+      } else {
+        // Cria usuário
+        user = await User.create({ email, password }, trx);
+      }
+
+      // Verifica se os dados da pessoa existe para ser registrado
+      if (person) {
+        // ===========================
+        //  Validation for date birth
+        // ===========================
+
+        // Verifica através de regex o formato da data de nascimento
+        let dateValid = person.date_birth.match(
+          /(\d{2})\/(\d{2})\/(\d{4})/,
+          "$1/$2/$3"
+        );
+        if (dateValid === null) {
+          throw {
+            code: 1003,
+            message: "Formato da data inválido. Formato ex.: dd/mm/yyyy"
+          };
+        }
+        person.date_birth = person.date_birth
+          .replace(/(\d{2})-(\d{2})-(\d{4})/, "$1/$2/$3")
+          .split(/\//);
+
+        person.date_birth = `${person.date_birth[1]}/${person.date_birth[0]}/${person.date_birth[2]}`;
+        // Transform date_birth in timestamp
+        person.date_birth = new Date(person.date_birth);
+        // ====================
+        //  Validation for cpf
+        // ====================
+
+        // Remove characters especiais
+        person.cpf = person.cpf.replace(/[^0-9 ]/g, "");
+
+        // Valida o cpf
+        if (!cpf.isValid(person.cpf)) {
+          throw {
+            code: 1004,
+            message: "CPF inválido"
+          };
+        }
+        let newPhone = phone.replace(/[^0-9 ]/g, "");
+
+        if (userExist) {
+          // Cria um novo telefone
+          newPhone = await Phone.findOrCreate(
+            { number: newPhone },
+            { number: newPhone },
+            trx
+          );
+
+          person.phone_id = newPhone.id;
+
+          // Cria a pessoa vinculando as informações do usuário
+          await user
+            .person()
+            .where({ id: user.id })
+            .transacting(trx)
+            .update(person);
+        } else {
+          // Cria a pessoa vinculando as informações do usuário
+          const newPerson = await user.person().create(person, trx);
+          // Cria um novo telefone
+          newPhone = await Phone.create({ number: newPhone }, trx);
+
+          // Vincula telefone a pessoa
+          await newPhone.person().save(newPerson, trx);
+        }
+      }
+
+      const userRole = await Role.findBy("slug", "admin");
 
       await user.roles().attach([userRole.id], null, trx);
       // Roda todos os valores da trx e garante a persistencia

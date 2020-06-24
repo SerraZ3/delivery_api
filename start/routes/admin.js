@@ -2,13 +2,6 @@
 const Route = use("Route");
 
 Route.group(() => {
-  /**
-   *
-   * Rotas para Imagens
-   * index/store/show/update/destroy
-   *
-   * */
-
   Route.resource("images", "ImageController")
     .apiOnly()
     .validator(
