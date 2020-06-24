@@ -419,7 +419,13 @@ class AuthController {
     const trx = await Database.beginTransaction();
 
     try {
-      let { password, password_confirmation, user_id, token } = request.all();
+      let {
+        password,
+        password_confirmation,
+        user_id,
+        token,
+        type
+      } = request.all();
 
       // Checa se as senhas coincidem
       if (password !== password_confirmation) {
@@ -431,7 +437,7 @@ class AuthController {
 
       // Busca por um token
       let tokenConfirm = await Token.query()
-        .where({ token, is_revoked: false, type: "reset_password" })
+        .where({ token, is_revoked: false, type })
         .fetch();
 
       // Verifica se o token é válido e está ativo
