@@ -71,21 +71,27 @@ class OrderTransformer extends BumblebeeTransformer {
     this.item(model.getRelated("deliveryType"), DeliveryTypeTransformer);
 
   includeProducts = (model) =>
-    this.item(model.getRelated("products"), (products) => {
+    this.item(model.getRelated("products"), async (products) => {
       if (products.length > 0) {
-        return products.map((product) => {
-          return {
-            id: product.id,
-            name: product.name,
-            price: parseFloat(product.price),
-            description: product.description,
-            quantity: product.$relations.pivot.quantity
-          };
-        });
+        return Promise.all(
+          products.map(async (product) => {
+            let images = await product.images().fetch();
+
+            return {
+              id: product.id,
+              name: product.name,
+              price: parseFloat(product.price),
+              description: product.description,
+              quantity: product.$relations.pivot.quantity,
+              images: images.toJSON()
+            };
+          })
+        );
       }
       if (products.length === 0) {
         return {};
       } else {
+        let images = await products.images().fetch();
         // Se houver apenas um produto para retornar
         return {
           id: products.id,
@@ -94,7 +100,8 @@ class OrderTransformer extends BumblebeeTransformer {
           description: products.description,
           quantity: products.$relations
             ? products.$relations.pivot.quantity
-            : null
+            : null,
+          images: images.toJSON()
         };
       }
     });
