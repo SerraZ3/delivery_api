@@ -143,7 +143,9 @@ class LoyaltyCardController {
         discount_application
       );
       if (active) {
-        await LoyaltyCard.query().where("id", ">", 0).update({ active: false });
+        await LoyaltyCard.query()
+          .where("id", ">", 0)
+          .update({ active: false }, trx);
       }
 
       let loyaltyCard = await LoyaltyCard.create(
