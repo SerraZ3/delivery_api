@@ -37,6 +37,7 @@ class OrderController {
       "s.name as state_name",
       "co.name_br as country_name_br",
       "co.name_en as country_name_en",
+      "o.id as order_id",
       "o.created_at as order_created_at",
       "o.updated_at as order_updated_at"
     ])
@@ -70,13 +71,13 @@ class OrderController {
     // Filtra pelo sentido crescente ou descrente
     if (way === "asc") {
       switch (order) {
-        case "email":
+        case "user_email":
           query.orderBy("u.email");
           break;
         case "active":
           query.orderBy("u.active");
           break;
-        case "name":
+        case "user_name":
           query.orderBy("up.name");
           break;
         case "deliveryman":
@@ -91,19 +92,25 @@ class OrderController {
         case "city":
           query.orderBy("c.name");
           break;
-        default:
+        case "order_id":
+          query.orderBy("o.id");
+          break;
+        case "order_created_at":
           query.orderBy("o.created_at");
+          break;
+        default:
+          query.orderBy("os.slug");
           break;
       }
     } else {
       switch (order) {
-        case "email":
+        case "user_email":
           query.orderBy("u.email", "desc");
           break;
         case "active":
           query.orderBy("u.active", "desc");
           break;
-        case "name":
+        case "user_name":
           query.orderBy("up.name", "desc");
           break;
         case "deliveryman":
@@ -118,8 +125,14 @@ class OrderController {
         case "city":
           query.orderBy("c.name", "desc");
           break;
-        default:
+        case "order_id":
+          query.orderBy("o.id", "desc");
+          break;
+        case "order_created_at":
           query.orderBy("o.created_at", "desc");
+          break;
+        default:
+          query.orderBy("os.slug", "desc");
           break;
       }
     }
@@ -156,14 +169,14 @@ class OrderController {
    */
   async update({ params: { id }, request, response, transform }) {
     const trx = await Database.beginTransaction();
-    let order = await Order.findOrFail(id);
+
     try {
       const { order_status_id, person_id } = request.all();
-      order.merge({
-        order_status_id,
-        person_id
-      });
-      await order.save(trx);
+      let order = await Order.query()
+        .where({ id })
+        .update({ order_status_id }, trx);
+
+      order = await Order.findOrFail(id);
 
       await trx.commit();
 
@@ -174,6 +187,7 @@ class OrderController {
       return response.status(201).send(order);
     } catch (error) {
       await trx.rollback();
+      console.log(error);
 
       response.status(400).send({
         message: "Não foi possivel atualizar pedido nesse momento!"
