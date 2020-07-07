@@ -24,6 +24,8 @@ class ImageTransformer extends BumblebeeTransformer {
           extension: image.extension
         };
       });
+    } else if (model.length === 0) {
+      return [];
     } else {
       model = model.toJSON();
       return {
