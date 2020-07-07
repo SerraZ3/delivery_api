@@ -69,10 +69,31 @@ class ProductTransformer extends BumblebeeTransformer {
     this.item(model.getRelated("images"), ImageTransformer);
 
   includeProductCategories = (model) =>
-    this.item(
-      model.getRelated("productCategories"),
-      ProductCategoryTransformer
-    );
+    this.item(model.getRelated("productCategories"), async (categories) => {
+      if (categories.length > 0) {
+        return Promise.all(
+          categories.map(async (category) => {
+            let images = await category.images().fetch();
+            return {
+              id: category.id,
+              name: category.name,
+              description: category.description,
+              images: images.toJSON()
+            };
+          })
+        );
+      } else if (categories.length === 0) return [];
+      else {
+        let images = await category.images().fetch();
+        return {
+          // add your transformation object here
+          id: categories.id,
+          name: categories.name,
+          description: categories.description,
+          images: images.toJSON()
+        };
+      }
+    });
 }
 
 module.exports = ProductTransformer;
