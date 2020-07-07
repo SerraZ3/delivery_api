@@ -18,6 +18,7 @@ class ProductCategoryImageSchema extends Schema {
         .references("id")
         .inTable("product_categories")
         .onDelete("CASCADE");
+      table.boolean("main").default(0);
       table.timestamps();
     });
   }
