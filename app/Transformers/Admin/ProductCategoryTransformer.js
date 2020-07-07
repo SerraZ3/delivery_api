@@ -1,6 +1,7 @@
 "use strict";
 
 const BumblebeeTransformer = use("Bumblebee/Transformer");
+const ImageTransformer = use("App/Transformers/Admin/ImageTransformer");
 
 /**
  * ProductCategoryTransformer class
@@ -10,7 +11,7 @@ const BumblebeeTransformer = use("Bumblebee/Transformer");
  */
 class ProductCategoryTransformer extends BumblebeeTransformer {
   static get availableInclude() {
-    return ["products"];
+    return ["products", "images"];
   }
   /**
    * This method is used to transform the data.
@@ -71,6 +72,8 @@ class ProductCategoryTransformer extends BumblebeeTransformer {
         })
       )
     );
+  includeImages = (model) =>
+    this.item(model.getRelated("images"), ImageTransformer);
 }
 
 module.exports = ProductCategoryTransformer;
