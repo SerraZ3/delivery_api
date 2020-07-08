@@ -9,17 +9,22 @@ class Image extends Model {
     return ["url"];
   }
   getUrl({ path }) {
-    return `${Env.get("APP_URL")}/uploads/${path}`;
+    return `${Env.get("URL_IMAGE")}/${path}`;
   }
   products() {
-    return this.belongsToMany("App/Models/Product").pivotModel(
-      "App/Models/ProductImage"
-    );
+    return this.belongsToMany("App/Models/Product")
+      .pivotModel("App/Models/ProductImage")
+      .withPivot(["main"]);
   }
   productCategories() {
-    return this.belongsToMany("App/Models/ProductCategory").pivotModel(
-      "App/Models/ProductCategoryImage"
-    );
+    return this.belongsToMany("App/Models/ProductCategory")
+      .pivotModel("App/Models/ProductCategoryImage")
+      .withPivot(["main"]);
+  }
+  establishments() {
+    return this.belongsToMany("App/Models/Establishment")
+      .pivotModel("App/Models/EstablishmentImage")
+      .withPivot(["main"]);
   }
 }
 
