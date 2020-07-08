@@ -15,9 +15,9 @@ class Product extends Model {
     );
   }
   images() {
-    return this.belongsToMany("App/Models/Image").pivotModel(
-      "App/Models/ProductImage"
-    );
+    return this.belongsToMany("App/Models/Image")
+      .pivotModel("App/Models/ProductImage")
+      .withPivot(["main"]);
   }
   loyaltyCards() {
     return this.belongsToMany("App/Models/LoyaltyCard").pivotModel(

@@ -10,9 +10,9 @@ class ProductCategory extends Model {
     );
   }
   images() {
-    return this.belongsToMany("App/Models/Image").pivotModel(
-      "App/Models/ProductCategoryImage"
-    );
+    return this.belongsToMany("App/Models/Image")
+      .pivotModel("App/Models/ProductCategoryImage")
+      .withPivot(["main"]);
   }
   loyaltyCards() {
     return this.belongsToMany("App/Models/LoyaltyCard").pivotModel(
