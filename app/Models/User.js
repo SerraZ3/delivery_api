@@ -60,6 +60,9 @@ class User extends Model {
       "App/Models/EstablishmentUser"
     );
   }
+  vehicle() {
+    return this.hasOne("App/Model/Vehicle");
+  }
 }
 
 module.exports = User;
