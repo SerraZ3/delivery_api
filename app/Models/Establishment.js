@@ -15,6 +15,14 @@ class Establishment extends Model {
   addresses() {
     return this.belongsToMany("App/Models/Address");
   }
+  images() {
+    return this.belongsToMany("App/Models/Image")
+      .pivotModel("App/Models/EstablishmentImage")
+      .withPivot(["main"]);
+  }
+  typeEstablishment() {
+    return this.belongsTo("App/Models/TypeEstablishment");
+  }
 }
 
 module.exports = Establishment;
