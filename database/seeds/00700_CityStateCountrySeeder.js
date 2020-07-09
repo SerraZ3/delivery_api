@@ -13,9 +13,12 @@
 /** @type {import(@adonisjs/lucid/src/Factory')} */
 const City = use("App/Models/City");
 const Country = use("App/Models/Country");
+const Env = use("Env");
 
 const { countries } = use("App/Helpers/countries.json");
-const { states, cities } = use("App/Helpers/states_cities.json");
+const { states, cities } = Env.get("MIN_MIGRATION", false)
+  ? use("App/Helpers/states_cities.min.json")
+  : use("App/Helpers/states_cities.json");
 
 class CityStateCountrySeeder {
   async run() {
