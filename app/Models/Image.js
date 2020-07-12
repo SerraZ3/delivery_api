@@ -9,7 +9,7 @@ class Image extends Model {
     return ["url"];
   }
   getUrl({ path }) {
-    return `${Env.get("URL_IMAGE")}/${path}`;
+    return `${Env.get("APP_URL_IMAGE")}/${path}`;
   }
   products() {
     return this.belongsToMany("App/Models/Product")
