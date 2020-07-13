@@ -27,6 +27,14 @@ class EstablishmentSeeder {
       phone: phone.id
     });
 
+    const establishment2 = await Factory.model(
+      "App/Models/Establishment"
+    ).create({
+      name: "Pizzaria Sabor",
+      description: "A pizzaria da familia",
+      phone: phone.id
+    });
+
     let userAdmin = await User.findBy("email", "serra.henrique3@gmail.com");
     let userManager = await User.findBy("email", "serra.henrique1@gmail.com");
     let deliveryman = await User.findBy("email", "luiz1@gmail.com");
@@ -44,10 +52,10 @@ class EstablishmentSeeder {
     await (await EstablishmentUser.findBy("user_id", deliveryman.id))
       .roles()
       .attach([4]);
-    let menu = await Factory.model("App/Models/Image").create({
+    let wallpaper = await Factory.model("App/Models/Image").create({
       path: "1594610428309-s2wE2RYImlf92Lrgrmz63LYDWZl6ga.jpeg"
     });
-    let wallpaper = await Factory.model("App/Models/Image").create({
+    let menu = await Factory.model("App/Models/Image").create({
       path: "1594610440196-L9Rk6bX74DeN3NMDg45PwsifxMaYVp.jpeg"
     });
 
@@ -55,6 +63,12 @@ class EstablishmentSeeder {
       row.menu = true;
     });
     await establishment.images().attach(wallpaper.id, (row) => {
+      row.wallpaper = true;
+    });
+    await establishment2.images().attach(menu.id, (row) => {
+      row.menu = true;
+    });
+    await establishment2.images().attach(wallpaper.id, (row) => {
       row.wallpaper = true;
     });
   }

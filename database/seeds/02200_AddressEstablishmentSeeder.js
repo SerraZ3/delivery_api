@@ -17,6 +17,8 @@ class AddressEstablishmentSeeder {
   async run() {
     let establishment = await Establishment.find(1);
     await establishment.addresses().attach(1);
+    let establishment2 = await Establishment.find(2);
+    await establishment2.addresses().attach(2);
   }
 }
 
