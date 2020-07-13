@@ -9,9 +9,17 @@ Route.group(() => {
    *
    * */
   Route.resource("products", "Admin/ProductController").only(["index", "show"]);
+  Route.resource("establishments", "Client/EstablishmentController").only([
+    "index",
+    "show"
+  ]);
   Route.get("products-by-id", "Admin/ProductController.showById");
 
   Route.get("product-categories", "Client/ProductController.categoryList");
+  Route.get(
+    "establishment-products/:id",
+    "Client/ProductController.listByEstablishment"
+  );
 
   Route.resource("user", "Admin/UserController")
     .only(["show", "update", "destroy"])
