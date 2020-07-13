@@ -9,7 +9,6 @@ class AuthLogin {
       phone: "string",
       password_confirmation: "required|string",
       "person.name": "requiredIf:person|string",
-      "person.cpf": "requiredIf:person|string",
       "person.date_birth": "requiredIf:person|string"
     };
   }
