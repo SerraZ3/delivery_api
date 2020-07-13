@@ -21,7 +21,8 @@ class ImageTransformer extends BumblebeeTransformer {
           url: image.url,
           size: image.size,
           original_name: image.original_name,
-          extension: image.extension
+          extension: image.extension,
+          pivot: image.pivot ? image.pivot : null
         };
       });
     } else if (model.length === 0) {
@@ -34,7 +35,8 @@ class ImageTransformer extends BumblebeeTransformer {
         url: model.url,
         size: model.size,
         original_name: model.original_name,
-        extension: model.extension
+        extension: model.extension,
+        pivot: model.pivot ? model.pivot : null
       };
     }
   };

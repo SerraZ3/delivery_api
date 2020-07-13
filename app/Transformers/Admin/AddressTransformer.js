@@ -16,13 +16,29 @@ class AddressTransformer extends BumblebeeTransformer {
   /**
    * This method is used to transform the default data.
    */
-  transform = (model) => ({
-    id: model.id,
-    street: model.street,
-    neightborhood: model.neightborhood,
-    zip_code: model.zip_code,
-    number: model.number
-  });
+  transform = (model) => {
+    if (model.length > 0) {
+      return model.map((address) => {
+        return {
+          id: address.id,
+          street: address.street,
+          neightborhood: address.neightborhood,
+          zip_code: address.zip_code,
+          number: address.number
+        };
+      });
+    } else if (model.length === 0) {
+      return [];
+    } else {
+      return {
+        id: model.id,
+        street: model.street,
+        neightborhood: model.neightborhood,
+        zip_code: model.zip_code,
+        number: model.number
+      };
+    }
+  };
   /**
    * This method is used to transform the default data.
    */
