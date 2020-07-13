@@ -17,7 +17,7 @@ class ProductController {
    * @param {Transform} ctx.transform
    */
   async index({ request, response, pagination, transform }) {
-    const name = request.input("name");
+    const { name, way, order } = request.all();
 
     const query = Product.query();
 
@@ -26,6 +26,31 @@ class ProductController {
       // ILIKE = Not Case sitive
       query.where("name", "ILIKE", `%${name}%`);
       // query.orWhere("description", "ILIKE", `%${name}%`);
+    }
+    if (way == "asc") {
+      switch (order) {
+        case "name":
+          query.orderBy("name");
+          break;
+        case "price":
+          query.orderBy("price");
+          break;
+        default:
+          query.orderBy("id");
+          break;
+      }
+    } else {
+      switch (order) {
+        case "name":
+          query.orderBy("name", "desc");
+          break;
+        case "price":
+          query.orderBy("price", "desc");
+          break;
+        default:
+          query.orderBy("id", "desc");
+          break;
+      }
     }
 
     let products = await query.paginate(pagination.page, pagination.limit);
