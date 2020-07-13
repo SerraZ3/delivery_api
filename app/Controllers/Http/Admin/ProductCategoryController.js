@@ -18,7 +18,7 @@ class ProductCategoryCategoryController {
    * @param {Transform} ctx.transform
    */
   async index({ request, response, pagination, transform }) {
-    const name = request.input("name");
+    const { name, way, order } = request.all();
 
     const query = ProductCategory.query();
 
@@ -26,14 +26,35 @@ class ProductCategoryCategoryController {
       // LIKE  = Case sitive
       // ILIKE = Not Case sitive
       query.where("name", "ILIKE", `%${name}%`);
-      query.orWhere("description", "ILIKE", `%${name}%`);
+      // query.orWhere("description", "ILIKE", `%${name}%`);
+    }
+    if (way == "asc") {
+      switch (order) {
+        case "name":
+          query.orderBy("name");
+          break;
+        default:
+          query.orderBy("id");
+          break;
+      }
+    } else {
+      switch (order) {
+        case "name":
+          query.orderBy("name", "desc");
+          break;
+        default:
+          query.orderBy("id", "desc");
+          break;
+      }
     }
 
     let productCategories = await query.paginate(
       pagination.page,
       pagination.limit
     );
-    productCategories = await transform.paginate(productCategories, Transform);
+    productCategories = await transform
+      .include("images")
+      .paginate(productCategories, Transform);
 
     return response.send(productCategories);
   }
@@ -48,10 +69,9 @@ class ProductCategoryCategoryController {
   async show({ params: { id }, transform, response }) {
     let product = await ProductCategory.findOrFail(id);
 
-    product = await transform.item(
-      product,
-      "Admin/ProductCategoryTransformer.withTimestamp"
-    );
+    product = await transform
+      .include("images,products")
+      .item(product, "Admin/ProductCategoryTransformer.withTimestamp");
     return response.send(product);
   }
 
@@ -85,7 +105,9 @@ class ProductCategoryCategoryController {
       }
       await trx.commit();
 
-      productCategories = await transform.item(productCategories, Transform);
+      productCategories = await transform
+        .include("images")
+        .item(productCategories, Transform);
 
       return response.status(201).send(productCategories);
     } catch (error) {
