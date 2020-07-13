@@ -19,7 +19,8 @@ class EstablishmentImageSchema extends Schema {
         .references("id")
         .inTable("establishments")
         .onDelete("CASCADE");
-      table.boolean("main").default(0);
+      table.boolean("menu").default(0);
+      table.boolean("wallpaper").default(0);
       table.timestamps();
     });
   }
