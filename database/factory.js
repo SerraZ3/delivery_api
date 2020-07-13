@@ -25,7 +25,10 @@ Factory.blueprint("App/Models/Establishment", (faker, i, data) => {
     description: data.description
       ? data.description
       : faker.sentence({ words: 20 }),
-    phone_id: data.phone_id ? data.phone_id : 1
+    phone_id: data.phone_id ? data.phone_id : 1,
+    type_establishment_id: data.type_establishment_id
+      ? data.type_establishment_id
+      : 1
   };
 });
 // Factory para Telephone
@@ -80,7 +83,8 @@ Factory.blueprint("App/Models/ProductCategory", async (faker, i, data) => {
     name: data.name ? data.name : faker.animal({ type: "zoo" }),
     description: data.description
       ? data.description
-      : faker.sentence({ words: 20 })
+      : faker.sentence({ words: 20 }),
+    establishment_id: data.establishment_id ? data.establishment_id : 1
   };
 });
 
@@ -93,7 +97,8 @@ Factory.blueprint("App/Models/Product", async (faker, i, data) => {
       : faker.sentence({ words: 20 }),
     price: data.price
       ? data.price
-      : faker.floating({ fixed: 2, min: 1, max: 100 })
+      : faker.floating({ fixed: 2, min: 1, max: 100 }),
+    establishment_id: data.establishment_id ? data.establishment_id : 1
   };
 });
 
