@@ -18,7 +18,7 @@ class Establishment extends Model {
   images() {
     return this.belongsToMany("App/Models/Image")
       .pivotModel("App/Models/EstablishmentImage")
-      .withPivot(["main"]);
+      .withPivot(["menu", "wallpaper"]);
   }
   typeEstablishment() {
     return this.belongsTo("App/Models/TypeEstablishment");
