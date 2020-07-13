@@ -71,6 +71,7 @@ class EstablishmentController {
       establishment,
       "Admin/EstablishmentTransformer.withTimestamp"
     );
+
     return response.send(establishment);
   }
 }
