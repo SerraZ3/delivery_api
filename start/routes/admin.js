@@ -161,4 +161,4 @@ Route.group(() => {
 })
   .prefix("v1/api/admin")
   .namespace("Admin")
-  .middleware(["auth:jwt", "is:(admin || manager)"]);
+  .middleware(["auth:jwt", "is:(admin or manager)"]);

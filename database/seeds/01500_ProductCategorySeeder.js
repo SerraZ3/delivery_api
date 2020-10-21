@@ -17,8 +17,8 @@ class ProductCategorySeeder {
   async run() {
     // Mais procurados
     await Factory.model("App/Models/ProductCategory").create({
-      name: "Mais procurados",
-      description: "Os produtos que vocês gostam mais!"
+      name: "Diversos",
+      description: "Diversos"
     });
     // Pizzas
     await Factory.model("App/Models/ProductCategory").create({

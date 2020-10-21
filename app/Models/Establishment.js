@@ -23,6 +23,10 @@ class Establishment extends Model {
   typeEstablishment() {
     return this.belongsTo("App/Models/TypeEstablishment");
   }
+
+  products() {
+    return this.HasMany("App/Models/Product");
+  }
 }
 
 module.exports = Establishment;

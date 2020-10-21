@@ -17,6 +17,10 @@ Route.group(() => {
 
   Route.get("product-categories", "Client/ProductController.categoryList");
   Route.get(
+    "product-categories-best",
+    "Client/ProductController.categoryListBest"
+  );
+  Route.get(
     "establishment-products/:id",
     "Client/ProductController.listByEstablishment"
   );

@@ -29,6 +29,9 @@ class Product extends Model {
       "App/Models/CouponProduct"
     );
   }
+  establishment() {
+    return this.belongsTo("App/Models/Establishment");
+  }
 }
 
 module.exports = Product;
