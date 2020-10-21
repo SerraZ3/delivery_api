@@ -1,27 +1,66 @@
 # Delivery
 
-## Setup
+**Projeto em desenvolvimento**
 
-Instale as dependências utlizando o seguinte comando
+**Desenvolvido por:**
+[Henrique A. Serra](https://github.com/SerraZ3/) :smile: :metal:
+
+## Configuração inicial
+
+### Pré-requisitos
+
+Projeto utiliza postgres e adonisjs
+
+### Configuração .env
+
+Copie o `.env.example` e renomeie para `.env`. Preencha os dados do email de envio e seu banco de dados.
+
+### Chave da aplicação
+
+Rode o seguinte comando para gerar a chave da aplicação
 
 ```bash
-$ npm install
+adonis key:generate
 ```
 
-OU
+### Instalar dependencias
+
+Para instalar as dependencias rode:
 
 ```bash
-$ yarn install
+adonis install
 ```
 
-Copie e cole o `.env.example` e renomeie para apenas `.env` e o configure de acordo com as suas configurações do banco de dados.
-
-Depois que configurar o seu `.env` rode o seguinte comando.
+ou
 
 ```bash
-$ adonis key:generate
+npm install
 ```
 
-### Migrations
+ou
 
-Para rodar as migrations visualize este [README](./database/readme.md)
+```bash
+yarn install
+```
+
+### Migrations e seeds
+
+Para rodar as migrations e os seed, rode:
+
+```bash
+adonis migration:run && adonis seed
+```
+
+### Run server
+
+Para rodar o servidor rode:
+
+```bash
+adonis serve
+```
+
+ou
+
+```bash
+adonis serve --dev
+```
